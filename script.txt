@@ -1,7 +1,0 @@
-document.getElementById("client_name").value="Raiqa";
-document.getElementById("company_name").value="Raiqa's Company";
-document.getElementById("client_street").value="Ugoki"; 
-document.getElementById("client_city").value="Sialkot";
-document.getElementById("client_state").value="Punjab";
-document.getElementById("client_country").value="Pakistan"; 
-document.getElementById("client_zipcode").value="5130"; 
