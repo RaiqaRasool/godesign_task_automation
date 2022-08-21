@@ -1,38 +1,45 @@
 <?php
-require_once("./includes/header.php");
-require_once("./app/Invoice.php");
-$invoice = new Invoice();
-$invoice_id = $_GET["invoice_id"];
-$invoice_data = $invoice->get_invoice($invoice_id);
-$invoice_items_data = $invoice->get_invoice_item($invoice_id);
-$due_date = strtotime($invoice_data["invoice_due_date"]);
-if (!empty($_POST)) {
-    $status=$invoice->edit_invoice(
-        $invoice_id,
-        $_POST['client_name'],
-        $_POST['company_name'],
-        $_POST['client_street'],
-        $_POST['client_city'],
-        $_POST['client_state'],
-        $_POST['client_country'],
-        $_POST['client_zipcode'],
-        $_POST['due_date'],
-        $_POST['desc'],
-        $_POST['hours'],
-        $_POST['hr_rate'],
-        $_POST['amount'],
-    );
-    if ($status) {
-        echo '<div class="alert alert-success" role="alert">
-        Invoice of id ' . ($invoice_id%2000 + 2000) . ' is updated successfully!
-      </div>';
-    } else {
-        echo '<div class="alert alert-danger" role="alert">
-        Some issue occured while updating
-      </div>';
-    }
+    require_once("./includes/header.php");
+if(isset($_GET["invoice_id"])):
+    require_once("./app/Invoice.php");
+    $invoice = new Invoice();
+    //Getting id from query string
+    $invoice_id = $_GET["invoice_id"];
+    //Getting invoice data based on id in query string
+    $invoice_data = $invoice->get_invoice($invoice_id);
+    $invoice_items_data = $invoice->get_invoice_item($invoice_id);
+    //Converting string from database to date
+    $due_date = strtotime($invoice_data["invoice_due_date"]);
+    //It will run to update data of invoice once form is submitted
+    if (!empty($_POST)) {
+        $status=$invoice->edit_invoice(
+            $invoice_id,
+            $_POST['client_name'],
+            $_POST['company_name'],
+            $_POST['client_street'],
+            $_POST['client_city'],
+            $_POST['client_state'],
+            $_POST['client_country'],
+            $_POST['client_zipcode'],
+            $_POST['due_date'],
+            $_POST['desc'],
+            $_POST['hours'],
+            $_POST['hr_rate'],
+            $_POST['amount'],
+        );
+        //Will display msg based on the return from edit invoice function
+        if ($status) {
+            echo '<div class="alert alert-success" role="alert">
+            Invoice of id ' . ($invoice_id%2000 + 2000) . ' is updated successfully!
+        </div>';
+        } else {
+            echo '<div class="alert alert-danger" role="alert">
+            Some issue occured while updating
+        </div>';
+        }
 }
 ?>
+<!-- Edit form -->
 <div class="container">
     <div class="container vh-100">
         <h1 class="my-5 text-center">Edit Invoice Form</h1>
@@ -64,7 +71,7 @@ if (!empty($_POST)) {
                 </div>
                 <div class="form-group">
                     <label for="client_zipcode">Client Zipcode</label>
-                    <input value="<?= $invoice_data["invoice_receiver_zip"] ?>" class="form-control" type="text" id="client_zipcode" name="client_zipcode" placeholder="Enter Client zipcode Address" required />
+                    <input value="<?= $invoice_data["invoice_receiver_zip"] ?>" minlength="4" maxlength="10" type="text" class="form-control" id="client_zipcode" name="client_zipcode" placeholder="Enter Client zipcode Address" required />
                 </div>
                 <div class="form-group">
                     <label for="due_date">Invoice Due</label>
@@ -138,6 +145,7 @@ if (!empty($_POST)) {
         </div>
     </div>
 
+    
     <script>
         function addRow(tableID) {
             let table = document.getElementById(tableID);
@@ -162,6 +170,12 @@ if (!empty($_POST)) {
         }
     </script>
     <?php
-
-   require_once("./includes/footer.php");
+    else:
+        echo '<div class="d-flex vh-100 text-center justify-content-center align-items-center">
+        <h1 class="alert alert-danger" role="alert">
+        No invoice ID is available to edit
+        </h1>
+        </div>';
+    endif; //end of invoice id if at top
+    require_once("./includes/footer.php");
     ?>

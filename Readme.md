@@ -1,3 +1,4 @@
+## Features
 This is invoice generator that can perform following functionalities:
 
 1. Creating new invoice.

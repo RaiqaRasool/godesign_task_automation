@@ -13,7 +13,16 @@
 <body>
     <?php
     session_start();
-    if(!isset($_SESSION['user_id'])){
+    //redirecting user to login page if user is not logged in
+    if (!isset($_SESSION['user_id'])) {
         header("Location:index.php");
     }
     ?>
+
+    <header>
+        <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container bg-blue h-20 vw-100">
+                <a class="navbar-brand text-center text-white" href="./dashboard.php">GODESIGN TECHNOLOGIES LLP</a>
+            </div>
+        </nav>
+    </header>

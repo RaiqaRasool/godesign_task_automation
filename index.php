@@ -1,9 +1,12 @@
 <?php
 require_once('./app/User.php');
+
+//redirecting the user to dashboard instead of index.php on being logged in
 session_start();
 if(isset($_SESSION['user_id'])){
   header("Location:dashboard.php");
 }
+//Will check if the user exists on form submission
 $db=new User();
 if(!empty($_POST)){
   if($db->login($_POST['email'],$_POST['pwd']))
@@ -43,11 +46,6 @@ if(!empty($_POST)){
           </form>
           </div>
     </div>
-    <!-- <form name="login_form" action="authentication.php" method="post" onsubmit="return validation()">
-        <input name="email" id="email" type="email" placeholder="Enter Email" required/>
-        <input name="pwd" id="pwd" type="password" placeholder="Enter password" required/>
-        <input type="submit" id="login-btn" value="Log In"/>
-    </form> -->
 <?php
 require_once("./includes/footer.php");
 ?>

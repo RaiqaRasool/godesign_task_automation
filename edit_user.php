@@ -1,28 +1,32 @@
 <?php
 require_once("./includes/header.php");
-require_once("./app/User.php");
-$user = new User();
-$user_id = $_GET["user_id"];
-$user_data = $user->get_user($user_id);
-if (!empty($_POST)) {
-    $status=$user->edit_user(
-        $user_id,
-        $_POST['user_fname'],
-        $_POST['user_lname'],
-        $_POST['user_email'],
-        $_POST['user_password'],
-        $_POST['admin']
-    );
-    if ($status) {
-        echo '<div class="alert alert-success" role="alert">
-        User ' . $user_data["first_name"]." ". $user_data["last_name"] . ' is updated successfully!
+if(isset($_GET["user_id"])):
+    require_once("./app/User.php");
+    $user = new User();
+    //Getting id from query string
+    $user_id = $_GET["user_id"];
+    //Getting user data based on id in query string
+    $user_data = $user->get_user($user_id);
+    //It will run to update data of user once form is submitted
+    if (!empty($_POST)) {
+        $status=$user->edit_user(
+            $user_id,
+            $_POST['user_fname'],
+            $_POST['user_lname'],
+            $_POST['user_email'],
+            $_POST['user_password'],
+            $_POST['admin']
+        );
+        if ($status) {
+            echo '<div class="alert alert-success" role="alert">
+            User ' . $user_data["first_name"]." ". $user_data["last_name"] . ' is updated successfully!
+            </div>';
+        } else {
+            echo '<div class="alert alert-danger" role="alert">
+            Some issue occured while updating
         </div>';
-    } else {
-        echo '<div class="alert alert-danger" role="alert">
-        Some issue occured while updating
-      </div>';
+        }
     }
-}
 ?>
 <div class="container vh-100">
     <h1 class="my-5 text-center">Edit user Form</h1>
@@ -64,6 +68,12 @@ if (!empty($_POST)) {
     </div>
 </div>
     <?php
-
+ else:
+    echo '<div class="d-flex vh-100 text-center justify-content-center align-items-center">
+    <h1 class="alert alert-danger" role="alert">
+    No User ID is available to edit
+    </h1>
+    </div>';
+endif;
    require_once("./includes/footer.php");
     ?>
