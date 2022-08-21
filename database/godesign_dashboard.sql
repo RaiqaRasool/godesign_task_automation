@@ -88,7 +88,7 @@ ALTER TABLE `invoice_user`
 --
 
 INSERT INTO `invoice_user` (`email`, `password`, `first_name`, `last_name`, `admin`) VALUES
-('rasoolraiqa@gmail.com', '$2y$10$WUeF3Cbu82iQO65ncTPb7u6LS0fMRFp.mAIfQI2.BI9GRG6gnIn6G', 'Raiqa', 'Rasool', b'1'),
+('root@gmail.com', '$2y$10$WUeF3Cbu82iQO65ncTPb7u6LS0fMRFp.mAIfQI2.BI9GRG6gnIn6G', 'Raiqa', 'Rasool', b'1'),
 
 -- --------------------------------------------------------
 

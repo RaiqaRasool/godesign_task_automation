@@ -54,6 +54,7 @@ use Dompdf\Dompdf;
 use Dompdf\Exception;
 // instantiate and use the dompdf class
 $dompdf = new DOMPDF();
+//setting custom width and height for paper
 $customPaper = array(0,0,950, 1329);
 $dompdf->setPaper($customPaper);
 $dompdf->loadHtml('<!DOCTYPE html>
