@@ -21,8 +21,17 @@
 
     <header>
         <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container bg-blue h-20 vw-100">
+            <div class="container bg-blue h-20 vw-100 d-flex justify-content-between align-items-center">
                 <a class="navbar-brand text-center text-white" href="./dashboard.php">GODESIGN TECHNOLOGIES LLP</a>
+                <form method="post"><button type="submit" name="logout" class="btn btn-warning">Logout</button></form>
             </div>
         </nav>
     </header>
+
+<?php
+//logging out
+if(!empty($_POST)){
+session_destroy();
+header("Location: ".$_SERVER['REQUEST_URI']);
+}
+?>

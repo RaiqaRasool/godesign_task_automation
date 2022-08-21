@@ -27,6 +27,7 @@ For PDF creation this project use DomPdf.
 3. Go to the folder and write:
 ```
  git clone https://github.com/RaiqaRasool/invoice_generator.git
+ 
  git clone https://github.com/dompdf/dompdf.git
 ```
 4. Go to phpmyadmin of web server and run the SQL script given in database folder of repo
