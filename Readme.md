@@ -27,10 +27,10 @@ For PDF creation this project use DomPdf.
 3. Go to the folder and write:
 ```
  git clone https://github.com/RaiqaRasool/invoice_generator.git
- 
- git clone https://github.com/dompdf/dompdf.git
+
 ```
-4. Go to phpmyadmin of web server and run the SQL script given in database folder of repo
+5. Go to https://github.com/dompdf/dompdf/releases and download Dompdf 2.0.0 zip file and unzip it renaming the unzipped folder to dompdf
+4. Go to MySQL DBMS and run the SQL script given in database folder of repo
 5. Come to folder and edit password, host and username in config.php based on what are there values for phpmyadmin.
 5. By default a user with email root@gmail.com and password raiqa will be created with admin rights use it to   login the and use the app
 6. To customize the PDF of invoice go to invoice_pdf.php and edit html code in loadHtml()
