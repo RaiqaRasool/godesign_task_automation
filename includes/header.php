@@ -30,7 +30,7 @@
 
 <?php
 //logging out
-if(!empty($_POST)){
+if(isset($_POST['logout'])){
 session_destroy();
 header("Location: ".$_SERVER['REQUEST_URI']);
 }
