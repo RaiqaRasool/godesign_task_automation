@@ -7,19 +7,28 @@
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `godesign_dashboard`
 --
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice_user`
+--
+
+CREATE TABLE `invoice_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL UNIQUE,
+  `password` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `admin` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `invoice_user`
+AUTO_INCREMENT=1;
+
 
 -- --------------------------------------------------------
 
@@ -28,7 +37,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `invoice` (
-  `invoice_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `invoice_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `invoice_due_date` timestamp NOT NULL,
@@ -38,11 +47,18 @@ CREATE TABLE `invoice` (
   `invoice_receiver_city` varchar(500) NOT NULL,
   `invoice_receiver_state` varchar(200) NOT NULL,
   `invoice_receiver_country` varchar(300) NOT NULL,
-  `invoice_receiver_zip` varchar(10) NOT NULL
+  `invoice_receiver_zip` varchar(10) NOT NULL,
+  PRIMARY KEY(`invoice_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `invoice_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `invoice`
+--
+-- AUTO_INCREMENT for table `invoice`
+--
+ALTER TABLE `invoice`
+AUTO_INCREMENT=1;
+
 --
 -- --------------------------------------------------------
 
@@ -51,102 +67,37 @@ CREATE TABLE `invoice` (
 --
 
 CREATE TABLE `invoice_item` (
-  `invoice_item_id` int(11) NOT NULL,
+  `invoice_item_id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(11) NOT NULL,
   `invoice_item_desc` text NOT NULL,
   `invoice_item_hours` int(11) NOT NULL,
   `invoice_item_hr_rate` int(11) NOT NULL,
-  `invoice_item_amount` int(11) NOT NULL
+  `invoice_item_amount` int(11) NOT NULL,
+  PRIMARY KEY(`invoice_item_id`),
+  FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `invoice_item`
---
 
--- --------------------------------------------------------
-
---
--- Table structure for table `invoice_user`
---
-
-CREATE TABLE `invoice_user` (
-  `id` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `admin` bit(1) NOT NULL DEFAULT b'0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- AUTO_INCREMENT for table `invoice_user`
---
-ALTER TABLE `invoice_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- Dumping data for table `invoice_user`
---
-
-INSERT INTO `invoice_user` (`email`, `password`, `first_name`, `last_name`, `admin`) VALUES
-('root@gmail.com', '$2y$10$WUeF3Cbu82iQO65ncTPb7u6LS0fMRFp.mAIfQI2.BI9GRG6gnIn6G', 'Raiqa', 'Rasool', b'1'),
-
--- --------------------------------------------------------
-
--- Indexes for table `invoice`
---
-ALTER TABLE `invoice`
-  ADD PRIMARY KEY (`invoice_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `invoice_item`
---
-ALTER TABLE `invoice_item`
-  ADD PRIMARY KEY (`invoice_item_id`),
-  ADD KEY `invoice_id` (`invoice_id`);
-
---
--- Indexes for table `invoice_user`
---
-ALTER TABLE `invoice_user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_email` (`email`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `invoice`
---
-ALTER TABLE `invoice`
-  MODIFY `invoice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
 --
 ALTER TABLE `invoice_item`
-  MODIFY `invoice_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+AUTO_INCREMENT=1;
 
 --
 --
-
--- Constraints for dumped tables
+-- Dumping data for table `invoice_user`
 --
 
---
--- Constraints for table `invoice`
---
-ALTER TABLE `invoice`
-  ADD CONSTRAINT `invoice_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `invoice_user` (`id`);
-
---
--- Constraints for table `invoice_item`
---
-ALTER TABLE `invoice_item`
-  ADD CONSTRAINT `invoice_item_ibfk_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`);
-COMMIT;
+INSERT INTO `invoice_user` (`email`, `password`, `first_name`, `last_name`, `admin`)
+		VALUES('root@gmail.com', '$2y$10$WUeF3Cbu82iQO65ncTPb7u6LS0fMRFp.mAIfQI2.BI9GRG6gnIn6G', 'Raiqa', 'Rasool', 1);
+		-- --------------------------------------------------------
+		--
+		COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */
+;
