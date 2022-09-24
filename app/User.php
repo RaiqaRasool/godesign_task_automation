@@ -1,6 +1,5 @@
 <?php
 
-use function PHPUnit\Framework\throwException;
 
 require_once "config.php";
 
@@ -34,7 +33,6 @@ class User
                     $row = $result->fetch_assoc();
                     if (isset($row)) {
                         if (password_verify($password, $row["password"]) && $row["email"] == $email) {
-                            $status = true;
                             $_SESSION['user_id'] = $row["id"];
                             $_SESSION['user_email'] = $row["email"];
                             $_SESSION['user_name'] = $row["first_name"] . " " . $row["last_name"];

@@ -134,7 +134,9 @@
         function deleteRow(tableID) {
             let table = document.getElementById(tableID);
             let rowCount = table.rows.length;
-            console.log(rowCount);
+            // greater than 2 because there is a row as header row 
+            // and we want to have only one row at least below this 
+            // header row
             if (rowCount > 2) {
                 table.deleteRow(rowCount - 1)
             };

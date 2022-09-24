@@ -16,6 +16,9 @@ $invoice_data = $invoice->get_invoice($invoice_id);
 $invoice_date = strtotime($invoice_data["invoice_date"]);
 $due_date = strtotime($invoice_data["invoice_due_date"]);
 $total_bill = 0;
+//used this function as inside echo for pdf
+// running a loop was not possible so ran it
+// here and returned output by calling it in echo
 function items_data()
 {
     global $invoice;
@@ -40,7 +43,7 @@ function items_data()
         </td>
     </tr>
     ';
-        $total_bill += intval($item[5]);
+        $total_bill += $item[5];
     }
     return $string;
 }
@@ -52,7 +55,7 @@ use Dompdf\Options;
 // instantiate and use the dompdf class
 $options = new Options();
 $options->set('defaultFont', 'Helvetica');
-$dompdf = new DOMPDF($options);
+$dompdf = new Dompdf($options);
 $dompdf->loadHtml('<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -460,7 +463,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
                         </table>
                     </td>
                     <td class="main_table_cell due_date ">
-                        ' . date("d F Y") . '
+                        ' . date("d F Y", $due_date) . '
                     </td>
 
                     <td class="main_table_cell total_bill">
