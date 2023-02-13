@@ -2,20 +2,13 @@
 require_once("./includes/header.php");
 require_once("./app/User.php");
 $User = new User();
-$user_list=$User->list_users();
+$user_list = $User->list_all('invoice_user');
 
 if (!empty($_POST['delete-btn'])) {
-    $user_id = $_POST['delete-btn'];
-    if ($User->delete_user($user_id)) {
-      echo '<div class="alert alert-primary" role="alert">
-      User is deleted successfully!
-    </div>';
-    } else {
-      echo '<div class="alert alert-danger" role="alert">
-      Some issue occured while deleting
-    </div>';
-    };
-  }
+  $user_id = $_POST['delete-btn'];
+  $status = $User->delete_item('invoice_user', 'id', $user_id);
+  $User->status_msg($status, 'delet', 'User');
+}
 
 ?>
 
@@ -39,12 +32,12 @@ if (!empty($_POST['delete-btn'])) {
         ?>
           <tr>
             <th scope="row"><?= $i ?></th>
-            <td><?= $row["first_name"] ?></td>
-            <td><?= $row["last_name"] ?></td>
-            <td><?= $row["email"] ?></td>
-            <td><?= $row["admin"]==1?"Admin":"Normal User" ?></td>
-            <td><?= '<a class="btn btn-success" href="./edit_user.php?user_id=' . $row["id"] . '"><i class="fa-solid fa-pen-to-square"></i></a>' ?></td>
-            <td><?= '<form action="" method="post"><button type="submit" class="btn btn-danger" name="delete-btn" id="delete-btn" value="' . $row['id'] . '"><i class="fa-solid fa-trash"></i></button></form>' ?></td>
+            <td><?= $row[3] ?></td>
+            <td><?= $row[4] ?></td>
+            <td><?= $row[1] ?></td>
+            <td><?= $row[5] == 1 ? "Admin" : "Normal User" ?></td>
+            <td><?= '<a class="btn btn-success" href="./edit_user.php?user_id=' . $row[0] . '"><i class="fa-solid fa-pen-to-square"></i></a>' ?></td>
+            <td><?= '<form action="" method="post"><button type="submit" class="btn btn-danger" name="delete-btn" id="delete-btn" value="' . $row[0] . '"><i class="fa-solid fa-trash"></i></button></form>' ?></td>
           </tr>
         <?php
           $i++;

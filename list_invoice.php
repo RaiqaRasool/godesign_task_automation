@@ -5,7 +5,7 @@ require_once("./app/User.php");
 $invoice = new Invoice();
 $invoice_list = $invoice->list_invoice();
 $user = new User();
-$user_data = $user->get_user($_SESSION['user_id']);
+$user_data = $user->search_by_id('invoice_user', 'id', $_SESSION['user_id']);
 
 
 if (!empty($_POST['delete-btn'])) {
@@ -42,7 +42,7 @@ if (!empty($_POST['delete-btn'])) {
         <?php
         $i = 1;
         foreach ($invoice_list as $row) :
-          $user_data = $user->get_user($row["user_id"]);
+          $user_data = $user->search_by_id('invoice_user', 'id', $row["user_id"]);
           $due_date = strtotime($row["invoice_due_date"]);
           $invoice_date = strtotime($row["invoice_date"]);
 
@@ -57,8 +57,8 @@ if (!empty($_POST['delete-btn'])) {
             <td><?= $user_data["first_name"] . " " . $user_data["last_name"] ?></td>
             <td><?= '<a class="btn btn-success" href="./edit_invoice.php?invoice_id=' . $row["invoice_id"] . '"><i class="fa-solid fa-pen-to-square"></i></a>' ?></td>
             <td><?= '<form action="" method="post"><button type="submit" class="btn btn-danger" name="delete-btn" id="delete-btn" value="' . $row['invoice_id'] . '"><i class="fa-solid fa-trash"></i></button></form>' ?></td>
-            <td><?= '<a class="btn btn-warning" href="./invoice_pdf.php?mode=d&invoice_id='.$row["invoice_id"].'"> <i class="fa-solid fa-download"></i></a>' ?></td>
-            <td><?= '<a class="btn btn-primary" href="./invoice_pdf.php?mode=p&invoice_id='.$row["invoice_id"].'"> <i class="fa-solid fa-eye"></i></a>' ?></td>
+            <td><?= '<a class="btn btn-warning" href="./pdf_templates/invoice_pdf.php?mode=d&invoice_id=' . $row["invoice_id"] . '"> <i class="fa-solid fa-download"></i></a>' ?></td>
+            <td><?= '<a class="btn btn-primary" href="./pdf_templates/invoice_pdf.php?mode=p&invoice_id=' . $row["invoice_id"] . '"> <i class="fa-solid fa-eye"></i></a>' ?></td>
           </tr>
         <?php
           $i++;

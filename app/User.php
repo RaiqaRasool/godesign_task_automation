@@ -1,84 +1,30 @@
 <?php
+require_once("Database.php");
 
-
-require_once "config.php";
-
-class User
+class User extends Database
 {
-    private $username;
-    private $host;
-    private $password;
-    private $dbname;
 
-    function __construct()
-    {
-        $this->username = DB_USER;
-        $this->host = DB_HOST;
-        $this->password = DB_PWD;
-        $this->dbname = DB_NAME;
-    }
-
-    //Verify if there is a user corresponding to details entered in login form
     function login($email, $password)
     {
         try {
-            $connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            $query = $connection->prepare("SELECT * FROM invoice_user WHERE email=?");
-            if (!$query) {
-                $status = false;
-            } else {
-                $query->bind_param("s", $email);
-                if ($query->execute()) {
-                    $result = $query->get_result();
-                    $row = $result->fetch_assoc();
-                    if (isset($row)) {
-                        if (password_verify($password, $row["password"]) && $row["email"] == $email) {
-                            $_SESSION['user_id'] = $row["id"];
-                            $_SESSION['user_email'] = $row["email"];
-                            $_SESSION['user_name'] = $row["first_name"] . " " . $row["last_name"];
-                            $_SESSION['admin'] = $row["admin"];
-                            $status = true;
-                        } else {
-                            $status = false;
-                        }
-                    } else {
-                        $status = false;
-                    }
+            $row = $this->search_by_id('invoice_user', 'email', $email);
+            print_r($row);
+            if (count($row) != 0) {
+                if (password_verify($password, $row["password"]) && $row["email"] == $email) {
+                    $_SESSION['user_id'] = $row["id"];
+                    $_SESSION['user_email'] = $row["email"];
+                    $_SESSION['user_name'] = $row["first_name"] . " " . $row["last_name"];
+                    $_SESSION['admin'] = $row["admin"];
                 } else {
-                    $status = false;
-                }
-            }
-        } catch (Exception $e) {
-            die("Something went Wrong while Loggin In.");
-        } finally {
-            $connection->close();
-            return $status;
-        }
-    }
-
-    //will return user data when id is given
-    function get_user($id)
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            $query = $connection->prepare("SELECT * FROM invoice_user WHERE id=?");
-            if ($query) {
-                $query->bind_param("i", $id);
-                if ($query->execute()) {
-                    $result = $query->get_result();
-                    $user_data = $result->fetch_assoc();
-                    $status = $user_data;
-                } else {
-                    $status = false;
+                    $this->status = false;
                 }
             } else {
-                $status = false;
+                $this->status = false;
             }
         } catch (Exception $e) {
-            die("Something went Wrong while getting user data");
+            $this->status = false;
         } finally {
-            $connection->close();
-            return $status;
+            return $this->status;
         }
     }
 
@@ -90,11 +36,8 @@ class User
         $admin
     ) {
         try {
-            $connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception("Connection failed");
-            }
-            $insert_user = $connection->prepare("INSERT INTO `invoice_user` (
+
+            $query = "INSERT INTO `invoice_user` (
                     `email`,
                     `password`,
                     first_name,
@@ -103,50 +46,22 @@ class User
                     )  
                 VALUES(
                      ?,?,?,?,?
-                )");
-            //checking if statement is preparable
-            if ($insert_user) {
-                $user_password = password_hash($user_password, PASSWORD_DEFAULT);
-                $insert_user->bind_param(
-                    "ssssi",
-                    $user_email,
-                    $user_password,
-                    $user_fname,
-                    $user_lname,
-                    $admin
-                );
-                $user_insertion_status = $insert_user->execute();
-                if ($user_insertion_status) {
-                    $status = true;
-                } else {
-                    $status = false;
-                }
-            } else {
-                $status = false;
-            }
+                )";
+            $this->prepare_query($query);
+            $user_password = password_hash($user_password, PASSWORD_DEFAULT);
+            $this->stmt->bind_param(
+                "ssssi",
+                $user_email,
+                $user_password,
+                $user_fname,
+                $user_lname,
+                $admin
+            );
+            $this->execute_query('i');
         } catch (Exception $e) {
-            die("Something went Wrong while Creating user");
+            $this->status = false;
         } finally {
-            $connection->close();
-            return $status;
-        }
-    }
-
-    function list_users()
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            $query = "SELECT * FROM `invoice_user` ORDER BY id DESC";
-            $queried = $connection->query($query);
-            $list = $queried->fetch_all(MYSQLI_ASSOC);
-        } catch (Exception $e) {
-            die("Something went Wrong while listing users");
-        } finally {
-            $connection->close();
-            return $list;
+            return $this->status;
         }
     }
 
@@ -159,73 +74,29 @@ class User
         $user_role
     ) {
         try {
-            $connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            $update_user = $connection->prepare("UPDATE `invoice_user`  SET 
+            $query = "UPDATE `invoice_user`  SET 
                     `first_name`=?,
                     `last_name`=?,
                     email=?,
                     `password`=?,
                     `admin`=?
-                     WHERE id=?");
-            //checking if statement is preparable
-            if ($update_user) {
-                $user_password = password_hash($user_password, PASSWORD_DEFAULT);
-                if ($update_user->bind_param(
-                    "ssssii",
-                    $user_fname,
-                    $user_lname,
-                    $user_email,
-                    $user_password,
-                    $user_role,
-                    $user_id
-
-                )) {
-
-                    $user_updation_status = $update_user->execute();
-                    //if user data updated return true
-                    if ($user_updation_status) {
-                        $status = true;
-                    } else
-                        $status = false;
-                } else {
-                    $status = false;
-                }
-            } else {
-                $status = false;
-            }
+                     WHERE id=?";
+            $this->prepare_query($query);
+            $user_password = password_hash($user_password, PASSWORD_DEFAULT);
+            $this->stmt->bind_param(
+                "ssssii",
+                $user_fname,
+                $user_lname,
+                $user_email,
+                $user_password,
+                $user_role,
+                $user_id
+            );
+            $this->execute_query('u');
         } catch (Exception $e) {
-            die("Something went Wrong while Editing User Data");
+            $this->status = false;
         } finally {
-            $connection->close();
-            return $status;
-        }
-    }
-
-    function delete_user($user_id)
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            $user_delete = $connection->prepare("DELETE FROM `invoice_user` WHERE id=?");
-            if ($user_delete) {
-                $user_delete->bind_param("i", $user_id);
-                if (!$user_delete->execute()) {
-                    $status = false;
-                } else
-                    $status = true;
-            } else {
-                $status = false;
-            }
-        } catch (Exception $e) {
-            die("Something went Wrong while deleting user");
-        } finally {
-            $connection->close();
-            return $status;
+            return $this->status;
         }
     }
 }

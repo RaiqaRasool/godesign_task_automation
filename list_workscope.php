@@ -24,6 +24,8 @@ if (isset($_POST['delete-btn'])) {
                     <th scope="col">Created by</th>
                     <th></th>
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +44,8 @@ if (isset($_POST['delete-btn'])) {
                         <td><?= $user_data['first_name'] . ' ' . $user_data['last_name'] ?></td>
                         <td><?= '<a class="btn btn-success" href="./workscope_form.php?mode=e&id=' . $row[0] . '"><i class="fa-solid fa-pen-to-square"></i></a>' ?></td>
                         <td><?= '<form action="" method="post"><button type="submit" class="btn btn-danger" name="delete-btn" id="delete-btn" value="' . $row[0] . '"><i class="fa-solid fa-trash"></i></button></form>' ?></td>
+                        <td><?= '<a class="btn btn-warning" href="./pdf_templates/workscope_pdf.php?mode=d&workscope_id=' . $row[0] . '"> <i class="fa-solid fa-download"></i></a>' ?></td>
+                        <td><?= '<a class="btn btn-primary" href="./pdf_templates/workscope_pdf.php?mode=p&workscope_id=' . $row[0] . '"> <i class="fa-solid fa-eye"></i></a>' ?></td>
                     </tr>
                 <?php
                     $i++;

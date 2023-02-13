@@ -77,8 +77,7 @@ class Database
             if (($mode == 'i' || $mode == 'd') && $this->connection->affected_rows == 0) {
                 $this->status = false;
                 return;
-            }
-            if ($mode == 's') {
+            } else if ($mode == 's') {
                 $result = $this->stmt->get_result();
                 $data = $result->fetch_assoc();
                 $this->status = true;
