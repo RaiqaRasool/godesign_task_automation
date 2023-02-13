@@ -1,17 +1,17 @@
 <?php
-$logo = base64_encode(file_get_contents("./assets/imgs/logo.png"));
-$mobile = base64_encode(file_get_contents("./assets/imgs/mobile.png"));
-$email = base64_encode(file_get_contents("./assets/imgs/email.png"));
-$address_glob = base64_encode(file_get_contents("./assets/imgs/address_glob.png"));
-$heart = base64_encode(file_get_contents("./assets/imgs/heart.png"));
-$sign = base64_encode(file_get_contents("./assets/imgs/sign.jpg"));
-$footer = base64_encode(file_get_contents("./assets/imgs/footer.png"));
+$logo = base64_encode(file_get_contents("./imgs/logo.png"));
+$mobile = base64_encode(file_get_contents("./imgs/mobile.png"));
+$email = base64_encode(file_get_contents("./imgs/email.png"));
+$address_glob = base64_encode(file_get_contents("./imgs/address_glob.png"));
+$heart = base64_encode(file_get_contents("./imgs/heart.png"));
+$sign = base64_encode(file_get_contents("./imgs/sign.jpg"));
+$footer = base64_encode(file_get_contents("./imgs/footer.png"));
 
 
-require_once("./app/Invoice.php");
+require_once("../app/Invoice.php");
 $invoice_id = $_GET["invoice_id"];
 $invoice = new Invoice();
-$invoice_data = $invoice->get_invoice($invoice_id);
+$invoice_data = $invoice->search_by_id('invoice', 'invoice_id', $invoice_id);
 
 $invoice_date = strtotime($invoice_data["invoice_date"]);
 $due_date = strtotime($invoice_data["invoice_due_date"]);
@@ -24,7 +24,7 @@ function items_data()
     global $invoice;
     global $invoice_id;
     global $total_bill;
-    $invoice_items_data = $invoice->get_invoice_item($invoice_id);
+    $invoice_items_data = $invoice->search_by_single_condition('invoice_item', 'invoice_id', $invoice_id);
     $string = "";
     foreach ($invoice_items_data as $item) {
         $string .=

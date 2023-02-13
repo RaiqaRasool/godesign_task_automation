@@ -11,8 +11,8 @@ if (isset($_GET["invoice_id"])) :
     //Getting id from query string
     $invoice_id = $_GET["invoice_id"];
     //Getting invoice data based on id in query string
-    $invoice_data = $invoice->get_invoice($invoice_id);
-    $invoice_items_data = $invoice->get_invoice_item($invoice_id);
+    $invoice_data = $invoice->search_by_id('invoice', 'invoice_id', $invoice_id);
+    $invoice_items_data = $invoice->search_by_single_condition('invoice_item', 'invoice_id', $invoice_id);
     if ($invoice_data) :
         //Converting string from database to date to fill in invoice_form.php value
         $due_date = strtotime($invoice_data["invoice_due_date"]);
@@ -34,15 +34,7 @@ if (isset($_GET["invoice_id"])) :
                 $_POST['amount'],
             );
             //Will display msg based on the return from edit invoice function
-            if ($status) {
-                echo '<div class="alert alert-success" role="alert">
-            Invoice of id ' . ($invoice_id % 2000 + 2000) . ' is updated successfully!
-        </div>';
-            } else {
-                echo '<div class="alert alert-danger" role="alert">
-            Some issue occured while updating
-        </div>';
-            }
+            $invoice->status_msg($status, 'edit', 'Invoice');
         }
 ?>
         <!-- Edit form -->

@@ -46,8 +46,8 @@ class Database
 
     function close_connection() //have to make it public for search_by_id external closure
     {
-        if ($this->connection->ping())
-            $this->connection->close();
+        // if ($this->connection->ping())
+        //     $this->connection->close();
     }
 
     protected function check_type($var)
@@ -93,6 +93,17 @@ class Database
     {
         $content = str_replace('\r\n', '', $content);
         return $content;
+    }
+
+    protected function date_resolution($date)
+    {
+        $date_converted = date("Y-m-d H:i:s", strtotime($date));
+        return $date_converted;
+    }
+    //for html forms date -- have that format
+    protected function date_to_str($date)
+    {
+        return date('Y-m-d', $date);
     }
 
     //------------------------------------------------------
@@ -165,5 +176,20 @@ class Database
         $this->status = (count($data) == 0) ? array() : $data;
         $this->close_connection();
         return $this->status;
+    }
+
+
+    public function delete_by_single_condition($table, $condition_name, $condition_value)
+    {
+        try {
+            $query = "DELETE FROM $table WHERE $condition_name=?";
+            $this->prepare_query($query);
+            $this->stmt->bind_param($this->check_type($condition_value), $condition_value);
+            $this->execute_query('d');
+        } catch (Exception $e) {
+            $this->status = false;
+        } finally {
+            return $this->status;
+        }
     }
 }

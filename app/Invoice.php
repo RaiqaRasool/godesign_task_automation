@@ -1,20 +1,8 @@
 <?php
-require_once("./config.php");
+require_once("Database.php");
 
-class Invoice
+class Invoice extends Database
 {
-    private $host;
-    private $username;
-    private $pwd;
-    private $dbname;
-
-    function __construct()
-    {
-        $this->host = DB_HOST;
-        $this->username = DB_USER;
-        $this->pwd = DB_PWD;
-        $this->dbname = DB_NAME;
-    }
     function create_invoice(
         $client_name,
         $client_company,
@@ -29,13 +17,9 @@ class Invoice
         $hr_rate,
         $amount
     ) {
-        $date_due_converted = date("Y-m-d H:i:s", strtotime($due_date));
+        $date_due_converted = $this->date_resolution($due_date);
         try {
-            $connection = new mysqli($this->host, $this->username, $this->pwd, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            $insert_invoice = $connection->prepare("INSERT INTO `invoice` (
+            $query = "INSERT INTO `invoice` (
                 `user_id`,
                 `invoice_due_date`,
                 `invoice_receiver_name`,
@@ -48,30 +32,28 @@ class Invoice
                 )  
             VALUES(
                  ?,?,?,?,?,?,?,?,?
-            )");
-            //checking if statement is preparable
-            if ($insert_invoice) {
-                $insert_invoice->bind_param(
-                    "issssssss",
-                    $_SESSION['user_id'],
-                    $date_due_converted,
-                    $client_name,
-                    $client_company,
-                    $client_street,
-                    $client_city,
-                    $client_state,
-                    $client_country,
-                    $client_zip
-                );
+            )";
+            $this->prepare_query($query);
+            $this->stmt->bind_param(
+                "issssssss",
+                $_SESSION['user_id'],
+                $date_due_converted,
+                $client_name,
+                $client_company,
+                $client_street,
+                $client_city,
+                $client_state,
+                $client_country,
+                $client_zip
+            );
+            $this->execute_query('i');
+            $invoice_id = $this->connection->insert_id;
 
-                $invoice_insertion_status = $insert_invoice->execute();
-                $invoice_id = $connection->insert_id;
+            //if invoice data inserted only then insert invoice items
+            if ($this->status) {
 
-                //if invoice data inserted only then insert invoice items
-                if ($invoice_insertion_status) {
-
-                    for ($i = 0; $i < count($desc); $i++) {
-                        $insert_invoice_item = $connection->prepare("INSERT INTO `invoice_item` 
+                for ($i = 0; $i < count($desc); $i++) {
+                    $query = "INSERT INTO `invoice_item` 
                             (
                                 `invoice_id`,
                                 invoice_item_desc,
@@ -81,154 +63,30 @@ class Invoice
                             )
                             VALUES
                             (?,?,?,?,?)
-                            ");
-                        //returning false on failing statement preparation
-                        if (!$insert_invoice_item) {
-                            $status = false;
-                            break;
-                        }
-                        $insert_invoice_item->bind_param(
-                            "isiii",
-                            $invoice_id,
-                            $desc[$i],
-                            $hours[$i],
-                            $hr_rate[$i],
-                            $amount[$i]
-                        );
-                        $invoice_item_insertion_status = $insert_invoice_item->execute();
-                        if (!$invoice_item_insertion_status) {
-                            $status = false;
-                            break;
-                        }
+                            ";
+                    $this->prepare_query($query);
+                    //returning false on failing statement preparation
+                    if (!$this->status) {
+                        break;
                     }
-                } else {
-                    $status = false;
-                }
-            } else {
-                $status = false;
-            }
-        } catch (Exception $e) {
-            die("Something went Wrong while saving creating invoice");
-        } finally {
-            $connection->close();
-            if (!isset($status))
-                $status = true;
-            return $status;
-        }
-    }
-
-    function list_invoice()
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->pwd, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            $query = "SELECT * FROM `invoice` ORDER BY invoice_id DESC";
-            $queried = $connection->query($query);
-            $list = $queried->fetch_all(MYSQLI_ASSOC);
-        } catch (Exception $e) {
-            die("Something went Wrong while getting invoices.");
-        } finally {
-            $connection->close();
-            return $list;
-        }
-    }
-
-    function delete_invoice($invoice_id)
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->pwd, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            //delete invoice items first
-            $invoice_items_delete = $connection->prepare("DELETE FROM `invoice_item` WHERE invoice_id=?");
-            if ($invoice_items_delete) {
-                $invoice_items_delete->bind_param("i", $invoice_id);
-                if ($invoice_items_delete->execute()) {
-                    //delete invoice now
-                    $invoice_delete = $connection->prepare("DELETE FROM `invoice` WHERE invoice_id=?");
-                    if ($invoice_delete) {
-
-                        $invoice_delete->bind_param("i", $invoice_id);
-                        if ($invoice_delete->execute()) {
-                            if ($invoice_items_delete && $invoice_delete)
-                                $status = true;
-                            else {
-                                $status = false;
-                            }
-                        } else {
-                            $status = false;
-                        }
-                    } else {
-                        $status = false;
+                    $this->stmt->bind_param(
+                        "isiii",
+                        $invoice_id,
+                        $desc[$i],
+                        $hours[$i],
+                        $hr_rate[$i],
+                        $amount[$i]
+                    );
+                    $this->execute_query('i');
+                    if (!$this->status) {
+                        break;
                     }
-                } else {
-                    $status = false;
                 }
-            } else {
-                $status = false;
             }
         } catch (Exception $e) {
-            die("Something went Wrong while deleting invoice");
+            $this->status = false;
         } finally {
-            $connection->close();
-            return $status;
-        }
-    }
-
-    function get_invoice($invoice_id)
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->pwd, $this->dbname);
-            $query = $connection->prepare("SELECT * FROM invoice WHERE invoice_id=?");
-            if ($query) {
-                $query->bind_param("i", $invoice_id);
-                if ($query->execute()) {
-                    $result = $query->get_result();
-                    $invoice_data = $result->fetch_assoc();
-                    $status = $invoice_data;
-                } else {
-                    $status = false;
-                }
-            } else {
-                $status = false;
-            }
-        } catch (Exception $e) {
-            die("Something went Wrong while getting invoice data");
-        } finally {
-            $connection->close();
-            return $status;
-        }
-    }
-
-
-    function get_invoice_item($invoice_id)
-    {
-        try {
-            $connection = new mysqli($this->host, $this->username, $this->pwd, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-
-            $invoice_items_get = $connection->prepare("SELECT * FROM `invoice_item` WHERE invoice_id=?");
-            if ($invoice_items_get) {
-                $invoice_items_get->bind_param("i", $invoice_id);
-                if ($invoice_items_get->execute()) {
-                    $invoice_items = $invoice_items_get->get_result();
-                    $status = $invoice_items->fetch_all();
-                } else {
-                    $status = false;
-                }
-            } else {
-                $status = false;
-            }
-        } catch (Exception $e) {
-            die("Something went Wrong while getting invoice items");
-        } finally {
-            $connection->close();
-            return $status;
+            return $this->status;
         }
     }
 
@@ -247,13 +105,9 @@ class Invoice
         $hr_rate,
         $amount
     ) {
-        $date_due_converted = date("Y-m-d H:i:s", strtotime($due_date));
         try {
-            $connection = new mysqli($this->host, $this->username, $this->pwd, $this->dbname);
-            if ($connection->connect_error) {
-                throw new Exception();
-            }
-            $update_invoice = $connection->prepare("UPDATE `invoice`  SET 
+            $date_due_converted = $this->date_resolution($due_date);
+            $query = "UPDATE `invoice`  SET 
             `invoice_due_date`=?,
             `invoice_receiver_name`=?,
             invoice_receiver_company=?,
@@ -262,33 +116,30 @@ class Invoice
             invoice_receiver_state=?,
             invoice_receiver_country=?,
             invoice_receiver_zip=?
-             WHERE invoice_id=?");
-            //checking if statement is preparable
-            if ($update_invoice) {
-                if ($update_invoice->bind_param(
-                    "ssssssssi",
-                    $date_due_converted,
-                    $client_name,
-                    $client_company,
-                    $client_street,
-                    $client_city,
-                    $client_state,
-                    $client_country,
-                    $client_zip,
-                    $invoice_id
-                )) {
-                    $invoice_updation_status = $update_invoice->execute();
-                    //if invoice data updated only then insert invoice items
-                    if ($invoice_updation_status) {
-                        //as number of items is changing so we have to delete previous ones and then insert new
-                        $invoice_items_delete = $connection->prepare("DELETE FROM `invoice_item` WHERE invoice_id=?");
-                        if ($invoice_items_delete) {
-                            $invoice_items_delete->bind_param("i", $invoice_id);
-                            if ($invoice_items_delete->execute()) {
-                                //now insert updated items
-                                for ($i = 0; $i < count($desc); $i++) {
+             WHERE invoice_id=?";
+            $this->prepare_query($query);
+            $this->stmt->bind_param(
+                "ssssssssi",
+                $date_due_converted,
+                $client_name,
+                $client_company,
+                $client_street,
+                $client_city,
+                $client_state,
+                $client_country,
+                $client_zip,
+                $invoice_id
+            );
+            $this->execute_query('u');
+            //if invoice data updated only then insert invoice items
+            if ($this->status) {
+                //as number of items is changing so we have to delete previous ones and then insert new
+                $this->delete_by_single_condition('invoice_item', 'invoice_id', $invoice_id);
+                if ($this->status) {
+                    //now insert updated items
+                    for ($i = 0; $i < count($desc); $i++) {
 
-                                    $insert_invoice_item = $connection->prepare("INSERT INTO `invoice_item` 
+                        $query = "INSERT INTO `invoice_item` 
                                         (
                                             `invoice_id`,
                                             invoice_item_desc,
@@ -298,49 +149,27 @@ class Invoice
                                         )
                                         VALUES
                                         (?,?,?,?,?)
-                                        ");
-                                    //returning false on failing statement preparation
-                                    if (!$insert_invoice_item) {
-                                        $status = false;
-                                        break;
-                                    }
-                                    $insert_invoice_item->bind_param(
-                                        "isiii",
-                                        $invoice_id,
-                                        $desc[$i],
-                                        $hours[$i],
-                                        $hr_rate[$i],
-                                        $amount[$i]
-                                    );
-                                    $invoice_item_insertion_status = $insert_invoice_item->execute();
-                                    if (!$invoice_item_insertion_status) {
-                                        $status = false;
-                                        break;
-                                    }
-                                }
-                            } else {
-                                $status = false;
-                            }
-                        } else {
-                            $status = false;
+                                        ";
+                        $this->prepare_query($query);
+                        $this->stmt->bind_param(
+                            "isiii",
+                            $invoice_id,
+                            $desc[$i],
+                            $hours[$i],
+                            $hr_rate[$i],
+                            $amount[$i]
+                        );
+                        $this->execute_query('i');
+                        if (!$this->status) {
+                            break;
                         }
-                    } else {
-                        $status = false;
                     }
-                } else {
-                    $status = false;
                 }
-            } else {
-                $status = false;
             }
         } catch (Exception $e) {
-            die("Something went Wrong while editing Invoice Data");
+            $this->status = false;
         } finally {
-            $connection->close();
-            if (!isset($status)) {
-                $status = true;
-            }
-            return $status;
+            return $this->status;
         }
     }
 }
