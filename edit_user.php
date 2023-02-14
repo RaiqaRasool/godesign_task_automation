@@ -23,7 +23,15 @@ if (isset($_GET["user_id"])) :
                 $_POST['user_password'],
                 $_POST['admin']
             );
-            $user->status_msg($status, 'edit', 'User');
+            if ($status) {
+                echo '<div class="alert alert-success" role="alert">
+                User ' . $user_data["first_name"] . " " . $user_data["last_name"] . ' is updated successfully!
+                </div>';
+            } else {
+                echo '<div class="alert alert-danger" role="alert">
+                Some issue occured while updating
+            </div>';
+            }
         }
 ?>
         <div class="container vh-100">
