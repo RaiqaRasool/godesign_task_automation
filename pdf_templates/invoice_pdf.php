@@ -9,7 +9,7 @@ $footer = base64_encode(file_get_contents("./imgs/footer.png"));
 
 
 require_once("../app/Invoice.php");
-$invoice_id = $_GET["invoice_id"];
+$invoice_id = $_GET["id"];
 $invoice = new Invoice();
 $invoice_data = $invoice->search_by_id('invoice', 'invoice_id', $invoice_id);
 

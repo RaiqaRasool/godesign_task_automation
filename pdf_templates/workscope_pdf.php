@@ -9,7 +9,7 @@ $footer = base64_encode(file_get_contents("./imgs/footer.png"));
 
 
 require_once("../app/Workscope.php");
-$workscope_id = $_GET["workscope_id"];
+$workscope_id = $_GET["id"];
 $workscope = new Workscope();
 $workscope_data = $workscope->search_by_id('workscope', 'workscope_id', $workscope_id);
 

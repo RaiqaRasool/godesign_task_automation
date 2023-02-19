@@ -150,15 +150,16 @@ class Database
         return $data;
     }
     //don't write e at the end of operation if you want to have correct msg
-    public function status_msg($status, $op, $person, $additional_msg = '')
+    public function status_msg($status, $op, $doc_type, $id = '')
     {
         if ($status == true) {
+            // header("Location:" . $_SERVER['SERVER_NAME'] . "/pdf_templates//" . strtolower($doc_type) . '_pdf.php?mode=p&id=' . $id);
             echo '<div class="alert alert-success">
-                ' . $person . ' ' . $op . 'ed successfully!' . '<br/>' . $additional_msg . '
+                ' . $doc_type . ' ' . $op . 'ed successfully!
                  </div>';
         } else {
             echo '<div class="alert alert-danger">Some issue occured while
-           ' . $op . 'ing ' . $person . '.' . '
+           ' . $op . 'ing ' . $doc_type . '.' . '
             </div>';
         }
         // header("Refresh:1.3; URL=" . $_SERVER['REQUEST_URI']);

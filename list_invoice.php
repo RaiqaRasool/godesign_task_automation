@@ -52,8 +52,8 @@ if (!empty($_POST['delete-btn'])) {
             <td><?= $user_data["first_name"] . " " . $user_data["last_name"] ?></td>
             <td><?= '<a class="btn btn-success" href="./edit_invoice.php?invoice_id=' . $row[0] . '"><i class="fa-solid fa-pen-to-square"></i></a>' ?></td>
             <td><?= '<form action="" method="post"><button type="submit" class="btn btn-danger" name="delete-btn" id="delete-btn" value="' . $row[0] . '"><i class="fa-solid fa-trash"></i></button></form>' ?></td>
-            <td><?= '<a class="btn btn-warning" href="./pdf_templates/invoice_pdf.php?mode=d&invoice_id=' . $row[0] . '"> <i class="fa-solid fa-download"></i></a>' ?></td>
-            <td><?= '<a class="btn btn-primary" href="./pdf_templates/invoice_pdf.php?mode=p&invoice_id=' . $row[0] . '"> <i class="fa-solid fa-eye"></i></a>' ?></td>
+            <td><?= '<a class="btn btn-warning" href="./pdf_templates/invoice_pdf.php?mode=d&id=' . $row[0] . '"> <i class="fa-solid fa-download"></i></a>' ?></td>
+            <td><?= '<a class="btn btn-primary" href="./pdf_templates/invoice_pdf.php?mode=p&id=' . $row[0] . '"> <i class="fa-solid fa-eye"></i></a>' ?></td>
           </tr>
         <?php
           $i++;
