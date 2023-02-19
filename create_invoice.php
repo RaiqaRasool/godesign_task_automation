@@ -24,7 +24,6 @@ if (!empty($_POST)) {
         $_POST['hours'],
         $_POST['hr_rate'],
         $_POST['amount'],
-        $_POST['invoice_currency']
     );
 
     if ($insert_status) {

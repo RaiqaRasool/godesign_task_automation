@@ -467,7 +467,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
                     </td>
 
                     <td class="main_table_cell total_bill">
-                        ' . $total_bill . ' ' . $invoice_data['invoice_currency'] . '
+                        $' . $total_bill . '
                     </td>
                 </tr>
             </tbody>
