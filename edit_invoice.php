@@ -32,6 +32,7 @@ if (isset($_GET["invoice_id"])) :
                 $_POST['hours'],
                 $_POST['hr_rate'],
                 $_POST['amount'],
+                $_POST['invoice_currency']
             );
             //Will display msg based on the return from edit invoice function
             $invoice->status_msg($status, 'edit', 'Invoice');
