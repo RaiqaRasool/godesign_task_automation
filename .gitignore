@@ -3,3 +3,6 @@
 
 #ignoring .DS_Store created by MacOS
 .DS_Store
+
+#ignoring database/script.sql for time being
+/database
