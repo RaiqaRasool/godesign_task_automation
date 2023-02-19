@@ -15,7 +15,8 @@ class Invoice extends Database
         $desc,
         $hours,
         $hr_rate,
-        $amount
+        $amount,
+        $invoice_currency
     ) {
         $date_due_converted = $this->date_resolution($due_date);
         try {
@@ -28,14 +29,15 @@ class Invoice extends Database
                 invoice_receiver_city,
                 invoice_receiver_state,
                 invoice_receiver_country,
-                invoice_receiver_zip
+                invoice_receiver_zip,
+                invoice_currency
                 )  
             VALUES(
-                 ?,?,?,?,?,?,?,?,?
+                 ?,?,?,?,?,?,?,?,?,?
             )";
             $this->prepare_query($query);
             $this->stmt->bind_param(
-                "issssssss",
+                "isssssssss",
                 $_SESSION['user_id'],
                 $date_due_converted,
                 $client_name,
@@ -44,7 +46,8 @@ class Invoice extends Database
                 $client_city,
                 $client_state,
                 $client_country,
-                $client_zip
+                $client_zip,
+                $invoice_currency
             );
             $this->execute_query('i');
             $invoice_id = $this->connection->insert_id;
@@ -103,7 +106,8 @@ class Invoice extends Database
         $desc,
         $hours,
         $hr_rate,
-        $amount
+        $amount,
+        $invoice_currency
     ) {
         try {
             $date_due_converted = $this->date_resolution($due_date);
@@ -115,11 +119,12 @@ class Invoice extends Database
             invoice_receiver_city=?,
             invoice_receiver_state=?,
             invoice_receiver_country=?,
-            invoice_receiver_zip=?
+            invoice_receiver_zip=?,
+            invoice_currency=?
              WHERE invoice_id=?";
             $this->prepare_query($query);
             $this->stmt->bind_param(
-                "ssssssssi",
+                "ssssssssis",
                 $date_due_converted,
                 $client_name,
                 $client_company,
@@ -128,7 +133,8 @@ class Invoice extends Database
                 $client_state,
                 $client_country,
                 $client_zip,
-                $invoice_id
+                $invoice_id,
+                $invoice_currency
             );
             $this->execute_query('u');
             //if invoice data updated only then insert invoice items
