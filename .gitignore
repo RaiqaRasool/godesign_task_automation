@@ -1,0 +1,5 @@
+#ignoring config.php that contains database data
+/app/config.php
+
+#ignoring .DS_Store created by MacOS
+.DS_Store
