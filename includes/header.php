@@ -1,3 +1,15 @@
+<?php
+session_start();
+//redirecting user to login page if user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location:index.php");
+}
+//logging out
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: " . $_SERVER['REQUEST_URI']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,13 +25,6 @@
 </head>
 
 <body>
-    <?php
-    session_start();
-    //redirecting user to login page if user is not logged in
-    if (!isset($_SESSION['user_id'])) {
-        header("Location:index.php");
-    }
-    ?>
 
     <header>
         <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -29,11 +34,3 @@
             </div>
         </nav>
     </header>
-
-    <?php
-    //logging out
-    if (isset($_POST['logout'])) {
-        session_destroy();
-        header("Location: " . $_SERVER['REQUEST_URI']);
-    }
-    ?>
