@@ -124,7 +124,7 @@ class Invoice extends Database
              WHERE invoice_id=?";
             $this->prepare_query($query);
             $this->stmt->bind_param(
-                "ssssssssis",
+                "sssssssssi",
                 $date_due_converted,
                 $client_name,
                 $client_company,

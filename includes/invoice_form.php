@@ -201,7 +201,7 @@ $currency_arr = array(
     <?php
     foreach ($currency_arr as $symbol => $name) :
         if ($is_edit && $symbol == $invoice_data['invoice_currency'])
-            echo '<option value="' . $symbol . '" selected>' . $name . '</option>';
+            echo '<option value="' . $symbol . '" selected>' . $name . ' (' . $symbol . ')' . '</option>';
         else
             echo '<option value="' . $symbol . '">' . $name . '</option>';
     endforeach;
