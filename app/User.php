@@ -8,7 +8,6 @@ class User extends Database
     {
         try {
             $row = $this->search_by_id('invoice_user', 'email', $email);
-            print_r($row);
             if (count($row) != 0) {
                 if (password_verify($password, $row["password"]) && $row["email"] == $email) {
                     $_SESSION['user_id'] = $row["id"];

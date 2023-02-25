@@ -9,6 +9,7 @@ $footer = base64_encode(file_get_contents("./imgs/footer.png"));
 
 
 require_once("../app/Workscope.php");
+require_once("./data.php");
 $workscope_id = $_GET["id"];
 $workscope = new Workscope();
 $workscope_data = $workscope->search_by_id('workscope', 'workscope_id', $workscope_id);
@@ -317,7 +318,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
 <table class="registration" width="100%">
     <tr>
     <td>
-     SECP Registration No. 0182457
+     SECP Registration No. ' . $gd_registrationNo . '
     </td>
     </tr>
 </table>
@@ -335,7 +336,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
                             <img src="data:image;base64,' . $mobile . '" alt="mobile"/>
                         </td>
                         <td class="text">
-                            +92(307) 607-7533
+                            ' . $gd_phone . '
                         </td>
                     </tr>
                 </table>
@@ -345,7 +346,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
                             <img src="data:image;base64,' . $email . '" alt="mobile"/>
                         </td>
                         <td class="text">
-                            info@godesign.pk
+                            ' . $gd_email . '
                         </td>
                     </tr>
                 </table>
@@ -355,7 +356,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
                             <img src="data:image;base64,' . $address_glob . '" alt="mobile"/>
                         </td>
                         <td class="text">
-                            www.godesign.pk
+                            ' . $gd_website . '
                         </td>
                     </tr>
                 </table>
@@ -368,9 +369,9 @@ $dompdf->loadHtml('<!DOCTYPE html>
             <td class="left">
                 <div class="invoice_date">' . date("M j, Y", $workscope_date) . '</div>
                 <div class="godesign_address">
-                    Street 25, SEC-I-10/4 I-10,<br/>
-                    Islamabad Capital Territory <br/>
-                    44800 Pakistan
+                    ' . $gd_street . ',<br/>
+                    ' . $gd_city . ' <br/>
+                    ' . $gd_postalCode . ' ' . $gd_country . '
                 </div>
             </td>
             <td class="right">
@@ -437,17 +438,17 @@ $dompdf->loadHtml('<!DOCTYPE html>
             <tbody class="account_body">
             <tr>
                 <td>
-                    ACCOUNT NAME: <b>GODESIGN TECHNOLOGIES LLP</b><br/>
-                    BANK NAME: FAYSAL BANK LIMITED<br/>
-                    ADDRESS: H#373 ST. 25 SEC-I-10/4 44800,<br/>
-                    ISLAMABAD,PAKISTAN
+                    ACCOUNT NAME: <b>' . $gd_accountName . '</b><br/>
+                    BANK NAME: ' . $gd_bankName . '<br/>
+                    ADDRESS: ' . $gd_bankStreet . ' ' . $gd_bankPostal . ',<br/>
+                    ' . $gd_bankCity . ', ' . $gd_bankCountry . '
                 </td>
                 <td class="right_account">
                     <div>
-                        SWIFT/SORT/ROUTING CODE: FAYSPKKA<br/>
-                        IBAN: PK87FAYS0169007000009395<br/>
-                        BRANCH CODE: 0169<br/>
-                        ACCOUNT NUMBER: 0169007000009395
+                        SWIFT/SORT/ROUTING CODE: ' . $gd_bankSwiftCode . '<br/>
+                        IBAN: ' . $gd_bankIBAN . '<br/>
+                        BRANCH CODE: ' . $gd_bankBranchCode . '<br/>
+                        ACCOUNT NUMBER: ' . $gd_bankAccountNumber . '
                     </div>
                 </td>
             </tr>
