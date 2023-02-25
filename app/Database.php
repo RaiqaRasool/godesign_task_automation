@@ -164,7 +164,6 @@ class Database
     }
     public function status_msg($status, $op, $doc_type)
     {
-        $root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0];
         if ($status == true) {
             echo '<div class="alert alert-success" role="alert">
             ' . $op . 'ed ' . $doc_type . ' successfully!

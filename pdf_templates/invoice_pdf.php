@@ -382,9 +382,9 @@ $dompdf->loadHtml('<!DOCTYPE html>
             <td class="left">
                 <div class="invoice_date">' . date("d F, Y", $invoice_date) . '</div>
                 <div class="godesign_address">
-                    ' . $gd_street . ',<br/>
-                    ' . $gd_city . ' <br/>
-                    ' . $gd_postalCode . ' ' . $gd_country . '
+                    ' . $gd_office . '<br/>
+                    ' . $gd_street . ' <br/>
+                    ' . $gd_city . ', ' . $gd_postalCode . ' ' . $gd_country . '
                 </div>
             </td>
             <td class="right">

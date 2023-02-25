@@ -2,6 +2,7 @@
 $jsonData = file_get_contents('data.json');
 $data = json_decode($jsonData);
 #address
+$gd_office = $data->gd_office;
 $gd_street = $data->gd_street;
 $gd_city = $data->gd_city;
 $gd_country = $data->gd_country;

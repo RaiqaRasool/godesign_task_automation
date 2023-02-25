@@ -4,6 +4,7 @@ $data = file_get_contents('data.json');
 $data = json_decode($data);
 if (!empty($_POST)) {
     $edited_data = array(
+        "gd_office" => $_POST["gd_office"],
         "gd_street" => $_POST["gd_street"],
         "gd_city" => $_POST["gd_city"],
         "gd_country" => $_POST["gd_country"],
@@ -31,6 +32,10 @@ if (!empty($_POST)) {
     <h1 class="my-5 text-center">PDF Data</h1>
     <div class="row d-flex align-items-center vh-100">
         <form class="d-flex flex-column gap-3" name="pdf_data_form" action="" method="post">
+            <div class="form-group">
+                <label for="gd_office">Company Office</label>
+                <input class="form-control" type="text" value='<?= $data->gd_office ?>' name="gd_street" />
+            </div>
             <div class="form-group">
                 <label for="gd_street">Company Street</label>
                 <input class="form-control" type="text" value='<?= $data->gd_street ?>' name="gd_street" />

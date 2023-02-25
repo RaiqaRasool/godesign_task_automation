@@ -50,7 +50,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
         
         font-weight:400;
         line-height:100%;
-
+        font-size:14px;
     }
     *{
         padding:0px;
@@ -138,155 +138,55 @@ $dompdf->loadHtml('<!DOCTYPE html>
     .client_details tr td{
     padding:0px;
     }
-    .client_details .heading td{
-        font-weight: 900;
-        padding-bottom:10px;
-    }
     .client_details .client_company td{
         padding-bottom:10px;
     }
-    .invoice_details{
+    .workscope_title{
         margin-top:40px;
-        font-size:11px;
-    }
-    .invoice_details thead{
-        border-top:2px solid black;
-        border-bottom:2px solid black;
-        text-transform:uppercase;
+        margin-bottom:15px;
         font-weight:900;
     }
-    .invoice_details thead tr th{
-        text-align:center;
-        padding:11px 0px;
-        font-size:12px;
+    .workscope_details{
+        width:100%;
+        margin-top:24px;
+        line-height:15px;
     }
-    .invoice_details thead tr .desc{
-        width: 400px;
-        text-align:left;
+    .workscope_details,.workscope_details tr td{
+        border: 1px solid black;
+        border-collapse: collapse;
     }
-      .invoice_details tbody tr .desc{
-        text-align:left;
-        width: 400px;
-    }
-    .invoice_details tbody tr td{
-        padding:8px 0px 0px 0px;
-        vertical-align:center;
-        text-align:center;
-    }
-    .invoice_details tbody tr .amount{
-        text-align:right;
-        padding-right:10px;
-    }
-    .invoice_details thead tr .amount_head{
-        text-align:right;
-        padding-right:10px;
-    }
-    .invoice_bottom{
-        left:50px;
-        right:50px;
-        width:700px;
-        bottom:410px;
-        position:absolute;
-    }
-    .invoice_bottom_head tr th{
-        font-size:12px;
-        font-weight:900;
-    }
-    .invoice_bottom .invoice_bottom_body tr .thanks{
+    .workscope_details tr td{
+        padding:6px 10px 6px 10px;
         vertical-align:top;
-         padding-left:0px;
     }
-    .invoice_bottom .invoice_bottom_head .total_bill{
-        text-align:right;
-        padding-right:10px;
+    .workscope_details .workscope_scope ol,ul
+    {
+        margin-left:10px;
+        list-style-position:inside;
     }
-    .invoice_bottom .invoice_bottom_body tr .due_date{
-        font-size:20px;
-        width:200px;
-        padding-left:20px; 
+    .workscope_details tr td:first-child{
+        width:75%;
     }
-    .invoice_bottom .invoice_bottom_body tr .total_bill{
-        text-align:right;
-        padding-right:10px;
-        font-size:20px;
-        width:100px;
+    .workscope_details .workscope_scope p,.workscope_notes p{
+        display:table;
+        margin-bottom:15px;
+        width:100%;  
     }
-    .invoice_bottom .invoice_bottom_body tr .thanks .sub_table tr .text{
-        padding-left:10px;
-        line-height:110%;
-        font-size:12px;
-        width:270px;
+    .workscope_details .workscope_scope ol,ul li{
+        display:table;
+        margin-bottom:15px;
+        width:100%;
     }
-    .invoice_bottom .invoice_bottom_body tr .thanks .sub_table tr .heart{
-         padding-left:0px;
-         vertical-align:middle;
+    .workscope_scope ol li ol li,
+    .workscope_scope ol li ul li, .workscope_scope ul li ol li,
+    .workscope_scope ul li ul li{
+        margin-left:25px;
+        list-style-position:inside;
     }
-    .invoice_bottom .invoice_bottom_head{
-            border-bottom:1px solid black;
+    .workscope_pricing,.workscope_pricing tr td{
+        border: 0px;
+        padding:0px;
     }
-    .invoice_bottom .invoice_bottom_head tr th{
-        text-align:left;
-        padding:5px 0px;
-    }
-    .invoice_bottom .invoice_bottom_body{
-        vertical-align:middle;
-    }
-    .invoice_bottom .invoice_bottom_body tr .main_table_cell{
-       font-weight: 900;
-        padding-left:0px;
-        padding-top:5px;
-    }
-    .account_details{
-        font-size:11px;
-        left:50px;
-        right:50px;
-        width:700px;
-        bottom:290px;
-        position:absolute;
-    }
-    .account_details .account_head{
-        border-bottom:1px solid black;
-        padding-bottom:2px;
-    }
-    .account_details .account_head tr th{
-        text-align:left;
-    }
-    .account_details .account_body tr td{
-        padding-top:10px;
-        line-height:120%;
-    }
-    .account_details .account_body tr .right_account div{
-       float:right;
-       padding-right:40px;
-    }
-
-    .sign_table{
-        float:right;
-        position:absolute;
-        right:50px;
-        bottom:80px;
-        width:200px;
-    }
-    .sign_table .sign_sub{
-        width:200px;
-    }
-    .sign_table .sign_sub tr .text{
-        border:none;
-        font-size:11px;
-        padding-top:5px;
-        text-align:left;
-        line-height:120%;
-    }
-    .sign_table .sign_sub tr .sign-image img{
-        z-index:-1;
-        width:45%;
-    }
-    .sign_table .sign_sub tr .sign-image{
-        border:none;
-        border-bottom:1px solid black;
-        padding-bottom:5px;
-    }
-
     footer{
         position:fixed;
         bottom:0px;
@@ -303,14 +203,6 @@ $dompdf->loadHtml('<!DOCTYPE html>
         left:0px;
         right:0px;
     }
-    p{
-        color:red;
-        border:1px solid black;
-    }
-    ol{
-        color:green;
-    }
-
     </style>
 </head>
 <body>
@@ -369,107 +261,88 @@ $dompdf->loadHtml('<!DOCTYPE html>
             <td class="left">
                 <div class="invoice_date">' . date("M j, Y", $workscope_date) . '</div>
                 <div class="godesign_address">
-                    ' . $gd_street . ',<br/>
-                    ' . $gd_city . ' <br/>
-                    ' . $gd_postalCode . ' ' . $gd_country . '
+                    ' . $gd_office . '<br/>
+                    ' . $gd_street . ' <br/>
+                    ' . $gd_city . ', ' . $gd_postalCode . ' ' . $gd_country . '
                 </div>
-            </td>
-            <td class="right">
-            <table>
-            <tr>
-                <td class="heading">
-                    Work Scope
-                </td>
-            </tr>
-            <table>
             </td>
             </tr>
         </table>
         <table class="client_details">
-            <tr class="heading">
-            <td>Bill To</td>
+            <tr>
+            <td>To,</td>
             </tr>
             <tr class="client_name">
-            <td> Client: ' . $workscope_data["workscope_client"] . '</td>
+            <td>' . $workscope_data["workscope_client"] . '</td>
             </tr>
             <tr class="client_address">
-            <td> Company: ' . $workscope_data["workscope_company"] . ', City: ' . $workscope_data["workscope_city"] . '</td>
+            <td>' . $workscope_data["workscope_company"] . ', ' . $workscope_data["workscope_city"] . '</td>
             </tr>
-        </table> Workscope content: ' . $workscope->content_preparation(htmlspecialchars_decode($workscope_data['workscope_scope']))  . ' Workscope notes: ' . $workscope->content_preparation(htmlspecialchars_decode($workscope_data['workscope_notes'])) . '
-        <table class="invoice_bottom" width="100%">
-            <thead class="invoice_bottom_head">
-                <tr>
-                    <th class="due_date">
-                    Initial Amount
-                    </th>
-                    <th class="due_date">
-                    Remaining Amount
-                    </th>
-                    <th  class="total_bill">
-                    TOTAL DUE
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="invoice_bottom_body">
-                <tr>
-                    <td class="main_table_cell due_date ">
-                        ' . strval(initial_amount_cal()) . '
-                    </td>
-                    <td class="main_table_cell due_date ">
-                        ' . strval(remaining_amount_cal()) . '
-                    </td>
-
-                    <td class="main_table_cell total_bill">
-                        ' . strval($workscope_data['workscope_totalCost']) . '
-                    </td>
-                </tr>
-            </tbody>
         </table>
-        <table class="account_details" width="100%">
-            <thead class="account_head">
-                <tr>
-                    <th>
-                        BANK ACCOUNT DETAILS
-                    </th>
-                    <th>
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="account_body">
+        <table class="workscope_title">
+            <tr>
+            <td>Subject: Scope of Work - ' . $workscope_data['workscope_company'] . '</td>
+            </tr>
+        </table>
+        <table class="workscope_desc">
             <tr>
                 <td>
-                    ACCOUNT NAME: <b>' . $gd_accountName . '</b><br/>
-                    BANK NAME: ' . $gd_bankName . '<br/>
-                    ADDRESS: ' . $gd_bankStreet . ' ' . $gd_bankPostal . ',<br/>
-                    ' . $gd_bankCity . ', ' . $gd_bankCountry . '
-                </td>
-                <td class="right_account">
-                    <div>
-                        SWIFT/SORT/ROUTING CODE: ' . $gd_bankSwiftCode . '<br/>
-                        IBAN: ' . $gd_bankIBAN . '<br/>
-                        BRANCH CODE: ' . $gd_bankBranchCode . '<br/>
-                        ACCOUNT NUMBER: ' . $gd_bankAccountNumber . '
-                    </div>
+                This brand startup services agreement is intended as a legally binding agreement
+                between GoDesign Technologies LLP (Developer) and ' . $workscope_data['workscope_company'] . ' (Client), and the
+                scope of work is following:
                 </td>
             </tr>
-            </tbody>
         </table>
-        <div class="sign_table" width="100%">
-            <table class="sign_sub">
-                <tr>
-                    <td class="sign-image">
-                        <img src="data:image;base64,' . $sign . '" alt="sign"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text">
-                        Company Official Signature<br/>
-                        Hafiz Muhammad Usman<br/>
-                        Chief Technology Officer<br/>
-                     </td>
-                </tr>
-            </table>
-        </div>
+        <table class="workscope_details">
+            <tr>
+                <td class="workscope_scope">
+                    ' . $workscope->content_preparation(htmlspecialchars_decode($workscope_data['workscope_scope'])) . '
+                </td>
+                <td class="workscope_notes">
+                    ' . $workscope->content_preparation(htmlspecialchars_decode($workscope_data['workscope_notes'])) . '
+                </td>
+            </tr>
+            <tr class="workscope_pricing">
+                <td>
+                    <table>
+                            <tr>
+                                <td>
+                                Total Cost
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                Initial Deposit
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                Remaining Payment
+                                </td>
+                            </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                            <tr>
+                                <td>
+                                Rs. ' . strval($workscope_data['workscope_totalCost']) . '/-
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                Rs. ' . strval(initial_amount_cal()) . '/-
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                Rs. ' . strval(remaining_amount_cal()) . '/-
+                                </td>
+                            </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>');
