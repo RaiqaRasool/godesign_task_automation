@@ -28,10 +28,45 @@ if (isset($_POST['logout'])) {
 <body>
 
     <header>
-        <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container bg-blue h-20 vw-100 d-flex justify-content-between align-items-center">
-                <a class="navbar-brand text-center text-white" href="<?= $root_path . "/dashboard.php" ?>">GODESIGN TECHNOLOGIES LLP</a>
-                <form method="post"><button type="submit" name="logout" class="btn btn-warning">Logout</button></form>
+        <nav class="px-4 navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="<?= $root_path . "/dashboard.php" ?>">GODESIGN TECHNOLOGIES LLP</a>
+            <div class="collapse navbar-collapse d-flex justify-content-around" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="<?= $root_path . "/dashboard.php" ?>">Dashboard <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="<?= $root_path . '/list_users.php' ?>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            User
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<?= $root_path . '/list_users.php' ?>">List All</a>
+                            <a class="dropdown-item" href="<?= $root_path . '/create_user.php' ?>">Create New</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="<?= $root_path . '/list_invoice.php' ?>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Invoice
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<?= $root_path . '/list_invoice.php' ?>">List All</a>
+                            <a class="dropdown-item" href="<?= $root_path . '/create_invoice.php' ?>">Create New</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="<?= $root_path . '/list_workscope.php' ?>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Workscope
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="<?= $root_path . '/list_workscope.php' ?>">List All</a>
+                            <a class="dropdown-item" href="<?= $root_path . '/workscope_form.php?mode=c' ?>">Create New</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= $root_path . '/pdf_templates/dataEdit_form.php' ?>">Edit Company Data</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="post"><button type="submit" name="logout" class="btn btn-warning">Logout</button></form>
             </div>
         </nav>
     </header>
