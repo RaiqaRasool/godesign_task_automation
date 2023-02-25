@@ -35,15 +35,21 @@ if (isset($_POST['logout'])) {
                     <li class="nav-item active">
                         <a class="nav-link" href="<?= $root_path . "/dashboard.php" ?>">Dashboard <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="<?= $root_path . '/list_users.php' ?>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            User
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="<?= $root_path . '/list_users.php' ?>">List All</a>
-                            <a class="dropdown-item" href="<?= $root_path . '/create_user.php' ?>">Create New</a>
-                        </div>
-                    </li>
+                    <?php
+                    if ($_SESSION['admin'] == 1) :
+                    ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="<?= $root_path . '/list_users.php' ?>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                User
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="<?= $root_path . '/list_users.php' ?>">List All</a>
+                                <a class="dropdown-item" href="<?= $root_path . '/create_user.php' ?>">Create New</a>
+                            </div>
+                        </li>
+                    <?php
+                    endif;
+                    ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="<?= $root_path . '/list_invoice.php' ?>" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Invoice

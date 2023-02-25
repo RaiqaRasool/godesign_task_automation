@@ -10,6 +10,7 @@ class Database
     protected $connection;
     protected $stmt;
     protected $status;
+    protected $modifiedOrEdited_id; #will be used for redirecting to pdf on success with id
 
     function __construct()
     {
@@ -150,19 +151,29 @@ class Database
         return $data;
     }
     //don't write e at the end of operation if you want to have correct msg
-    public function status_msg($status, $op, $doc_type, $id = '')
+    public function status_msg_withRedirect($status, $op, $doc_type, $id)
     {
+        $root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0];
         if ($status == true) {
-            // header("Location:" . $_SERVER['SERVER_NAME'] . "/pdf_templates//" . strtolower($doc_type) . '_pdf.php?mode=p&id=' . $id);
-            echo '<div class="alert alert-success">
-                ' . $doc_type . ' ' . $op . 'ed successfully!
-                 </div>';
+            header("Location:" . $root_path . "/pdf_templates//" . strtolower($doc_type) . '_pdf.php?mode=p&id=' . $id);
         } else {
             echo '<div class="alert alert-danger">Some issue occured while
            ' . $op . 'ing ' . $doc_type . '.' . '
             </div>';
         }
-        // header("Refresh:1.3; URL=" . $_SERVER['REQUEST_URI']);
+    }
+    public function status_msg($status, $op, $doc_type)
+    {
+        $root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0];
+        if ($status == true) {
+            echo '<div class="alert alert-success" role="alert">
+            ' . $op . 'ed ' . $doc_type . ' successfully!
+            </div>';
+        } else {
+            echo '<div class="alert alert-danger">Some issue occured while
+           ' . $op . 'ing ' . $doc_type . '.' . '
+            </div>';
+        }
     }
 
     public function search_by_single_condition($table, $condition_name, $condition_value)
@@ -192,5 +203,18 @@ class Database
         } finally {
             return $this->status;
         }
+    }
+
+    protected function set_modifiedOrEdited_id($id)
+    {
+        if ($this->status) {
+            $this->modifiedOrEdited_id = $id;
+        } else {
+            unset($this->modifiedOrEdited_id);
+        }
+    }
+    public function get_modifiedOrEdited_id()
+    {
+        return $this->modifiedOrEdited_id;
     }
 }

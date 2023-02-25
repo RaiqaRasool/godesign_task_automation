@@ -7,7 +7,7 @@ $user_list = $User->list_all('invoice_user');
 if (!empty($_POST['delete-btn'])) {
   $user_id = $_POST['delete-btn'];
   $status = $User->delete_item('invoice_user', 'id', $user_id);
-  $User->status_msg($status, 'delet', 'User');
+  $User->status_msg($status, 'delet', 'user');
 }
 
 ?>

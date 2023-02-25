@@ -35,7 +35,7 @@ if (isset($_GET["invoice_id"])) :
                 $_POST['invoice_currency']
             );
             //Will display msg based on the return from edit invoice function
-            $invoice->status_msg($status, 'edit', 'Invoice');
+            $invoice->status_msg_withRedirect($status, 'edit', 'Invoice', $invoice->get_modifiedOrEdited_id());
         }
 ?>
         <!-- Edit form -->

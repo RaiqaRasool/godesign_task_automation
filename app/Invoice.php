@@ -54,7 +54,6 @@ class Invoice extends Database
 
             //if invoice data inserted only then insert invoice items
             if ($this->status) {
-
                 for ($i = 0; $i < count($desc); $i++) {
                     $query = "INSERT INTO `invoice_item` 
                             (
@@ -89,6 +88,7 @@ class Invoice extends Database
         } catch (Exception $e) {
             $this->status = false;
         } finally {
+            $this->set_modifiedOrEdited_id($invoice_id);
             return $this->status;
         }
     }
@@ -133,8 +133,8 @@ class Invoice extends Database
                 $client_state,
                 $client_country,
                 $client_zip,
+                $invoice_currency,
                 $invoice_id,
-                $invoice_currency
             );
             $this->execute_query('u');
             //if invoice data updated only then insert invoice items
@@ -175,6 +175,7 @@ class Invoice extends Database
         } catch (Exception $e) {
             $this->status = false;
         } finally {
+            $this->set_modifiedOrEdited_id($invoice_id);
             return $this->status;
         }
     }

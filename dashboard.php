@@ -44,25 +44,25 @@ require_once("./includes/header.php");
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-lg-6 ">
-        <div class="card bg-danger text-white">
-          <div class="card-body">
-            <h5 class="card-title">See all Workscopes</h5>
-            <p class="card-text">To see all workscopes click the button below</p>
-            <a href="./list_workscope.php" class="btn btn-warning">List Workscopes</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-12 col-lg-6 ">
-        <div class="card bg-warning text-white">
-          <div class="card-body">
-            <h5 class="card-title">Create New Workscope</h5>
-            <p class="card-text">To create new workscope click the button below</p>
-            <a href="./workscope_form.php?mode=c" class="btn btn-danger">Create Workscope</a>
-          </div>
-        </div>
-      </div>
     <?php endif; ?>
+    <div class="col-sm-12 col-lg-6 ">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h5 class="card-title">See all Workscopes</h5>
+          <p class="card-text">To see all workscopes click the button below</p>
+          <a href="./list_workscope.php" class="btn btn-warning">List Workscopes</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6 ">
+      <div class="card bg-warning text-white">
+        <div class="card-body">
+          <h5 class="card-title">Create New Workscope</h5>
+          <p class="card-text">To create new workscope click the button below</p>
+          <a href="./workscope_form.php?mode=c" class="btn btn-danger">Create Workscope</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <?php

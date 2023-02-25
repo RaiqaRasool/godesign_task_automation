@@ -39,7 +39,7 @@ class Workscope extends Database
         } catch (Exception $e) {
             $this->status = false;
         } finally {
-            $this->close_connection();
+            $this->set_modifiedOrEdited_id($this->connection->insert_id);
             return $this->status;
         }
     }
@@ -79,7 +79,7 @@ class Workscope extends Database
         } catch (Exception $e) {
             $this->status = false;
         } finally {
-            $this->close_connection();
+            $this->set_modifiedOrEdited_id($workscope_id);
             return $this->status;
         }
     }

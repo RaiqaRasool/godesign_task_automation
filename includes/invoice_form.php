@@ -196,14 +196,14 @@ $currency_arr = array(
     <input class="form-control" minlength="4" maxlength="10" type="text" id="client_zipcode" name="client_zipcode" value="<?= $is_edit ? $invoice_data["invoice_receiver_zip"] : "" ?>" placeholder="Enter Client zipcode Address" required />
 </div>
 <label for="invoice_currency">Select Currency</label>
-<select class="form-select" aria-label="Default select example" id="invoice_currency" name="invoice_currency">
+<select class="form-select" aria-label="Default select example" id="invoice_currency" name="invoice_currency" required>
     <?= !$is_edit ? "<option selected>select currency</option>" : "<option>select currency</option>" ?>
     <?php
     foreach ($currency_arr as $symbol => $name) :
-        if ($is_edit && $symbol == $invoice_data['invoice_currency'])
+        if ($is_edit == true && $symbol == $invoice_data['invoice_currency'])
             echo '<option value="' . $symbol . '" selected>' . $name . ' (' . $symbol . ')' . '</option>';
         else
-            echo '<option value="' . $symbol . '">' . $name . '</option>';
+            echo '<option value="' . $symbol . '">' . $name . ' (' . $symbol . ')' . '</option>';
     endforeach;
     ?>
 </select>

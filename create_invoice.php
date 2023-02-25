@@ -27,15 +27,16 @@ if (!empty($_POST)) {
         $_POST['invoice_currency']
     );
 
-    if ($insert_status) {
-        echo '<div class="alert alert-success" role="alert">
-    Invoice is created successfully!
-            </div>';
-    } else {
-        echo '<div class="alert alert-danger" role="alert">
-            Some issue occured while creating invoice
-          </div>';
-    }
+    $invoice->status_msg_withRedirect($insert_status, 'Creat', 'invoice', $invoice->get_modifiedOrEdited_id());
+    // if ($insert_status) {
+    //     echo '<div class="alert alert-success" role="alert">
+    // Invoice is created successfully!
+    //         </div>';
+    // } else {
+    //     echo '<div class="alert alert-danger" role="alert">
+    //         Some issue occured while creating invoice
+    //       </div>';
+    // }
 }
 ?>
 

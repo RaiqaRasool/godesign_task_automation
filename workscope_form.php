@@ -19,7 +19,7 @@ if ($mode == 'c') {
             $_SESSION['user_id'],
             $_POST['workscope_date']
         );
-        $workscope->status_msg($status, 'creat', 'Workscope');
+        $workscope->status_msg_withRedirect($status, 'creat', 'Workscope', $workscope->get_modifiedOrEdited_id());
     }
 } else if ($mode == 'e') {
     $is_edit = true;
@@ -40,7 +40,7 @@ if ($mode == 'c') {
             $_SESSION['user_id'],
             $_POST['workscope_date']
         );
-        $workscope->status_msg($status, 'edit', 'Workscope');
+        $workscope->status_msg_withRedirect($status, 'edit', 'Workscope', $workscope_id);
     }
 }
 ?>
