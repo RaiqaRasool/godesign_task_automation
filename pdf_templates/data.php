@@ -20,7 +20,7 @@ $gd_bankPostal = $data->gd_bankPostal;
 $gd_bankCity = $data->gd_bankCity;
 $gd_bankCountry = $data->gd_bankCountry;
 
-$gd_bankSwiftCode = $data->bankSwiftCode;
+$gd_bankSwiftCode = $data->gd_bankSwiftCode;
 $gd_bankIBAN = $data->gd_bankIBAN;
 $gd_bankBranchCode = $data->gd_bankBranchCode;
 $gd_bankAccountNumber = $data->gd_bankAccountNumber;
