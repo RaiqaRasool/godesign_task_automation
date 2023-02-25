@@ -1,8 +1,9 @@
 <?php
 session_start();
 //redirecting user to login page if user is not logged in
+$root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0];
 if (!isset($_SESSION['user_id'])) {
-    header("Location:index.php");
+    header("Location:" . $root_path . "/index.php");
 }
 //logging out
 if (isset($_POST['logout'])) {
@@ -29,7 +30,7 @@ if (isset($_POST['logout'])) {
     <header>
         <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container bg-blue h-20 vw-100 d-flex justify-content-between align-items-center">
-                <a class="navbar-brand text-center text-white" href="./dashboard.php">GODESIGN TECHNOLOGIES LLP</a>
+                <a class="navbar-brand text-center text-white" href="<?= $root_path . "/dashboard.php" ?>">GODESIGN TECHNOLOGIES LLP</a>
                 <form method="post"><button type="submit" name="logout" class="btn btn-warning">Logout</button></form>
             </div>
         </nav>

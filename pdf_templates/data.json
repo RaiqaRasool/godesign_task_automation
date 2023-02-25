@@ -1,5 +1,5 @@
 {
-    "gd_street": "Street 25, SEC-I-10/4 I-10",
+    "gd_street": "Street 25, SEC-I-10 4 I-10",
     "gd_city": "Islamabad Capital Territory",
     "gd_country": "Pakistan",
     "gd_postalCode": "44800",
@@ -8,13 +8,13 @@
     "gd_website": "www.godesign.pk",
     "gd_accountName": "GODESIGN TECHNOLOGIES LLP",
     "gd_bankName": "FAYSAL BANK LIMITED",
-    "gd_bankStreet": "H#373 ST. 25 SEC-I-10/4",
+    "gd_bankStreet": "H#373 ST. 25 SEC-I-10\/4",
     "gd_bankPostal": "44800",
     "gd_bankCity": "ISLAMABAD",
     "gd_bankCountry": "PAKISTAN",
-    "gd_bankSwiftCode": "FAYSPKKA",
+    "gd_bankSwiftCode": "203420423",
     "gd_bankIBAN": "PK87FAYS0169007000009395",
-    "gd_bankBranchCode": "0169",
-    "gd_bankAccountNumber": "0169007000009395",
-    "gd_registrationNo": "0182457"
+    "gd_bankBranchCode": "90",
+    "gd_bankAccountNumber": "2203523-35",
+    "gd_registrationNo": "2342"
 }
