@@ -25,6 +25,7 @@ function items_data()
     global $invoice;
     global $invoice_id;
     global $total_bill;
+    global $invoice_data;
     $invoice_items_data = $invoice->search_by_single_condition('invoice_item', 'invoice_id', $invoice_id);
     $string = "";
     foreach ($invoice_items_data as $item) {
@@ -40,7 +41,7 @@ function items_data()
         ' . $item[4] . '
         </td>
         <td class="amount">
-        $' . $item[5] . '
+        ' . $item[5] . ' ' . $invoice_data['invoice_currency'] . '
         </td>
     </tr>
     ';
@@ -306,7 +307,6 @@ $dompdf->loadHtml('<!DOCTYPE html>
         border-bottom:1px solid black;
         padding-bottom:5px;
     }
-
     footer{
         position:fixed;
         bottom:0px;

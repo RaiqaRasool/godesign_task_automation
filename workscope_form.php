@@ -16,8 +16,7 @@ if ($mode == 'c') {
             $_POST['initialAmt_percent'],
             $_POST['work_scope'],
             $_POST['work_notes'],
-            $_SESSION['user_id'],
-            $_POST['workscope_date']
+            $_SESSION['user_id']
         );
         $workscope->status_msg_withRedirect($status, 'creat', 'Workscope', $workscope->get_modifiedOrEdited_id());
     }
@@ -26,7 +25,6 @@ if ($mode == 'c') {
     $btn_text = 'Edit Workscope';
     $workscope_id = $_GET['id'];
     $curr_workscope = $workscope->search_by_id('workscope', 'workscope_id', $workscope_id);
-    $workscope_date = strtotime($curr_workscope["workscope_date"]);
     if (!empty($_POST)) {
         $status = $workscope->edit_workscope(
             $workscope_id,
@@ -59,10 +57,6 @@ if ($mode == 'c') {
             <div class="form-group">
                 <label for="client_city">Client City</label>
                 <input class="form-control" maxlength="255" type="text" id="client_city" name="client_city" value="<?= $is_edit ? $curr_workscope['workscope_city'] : "" ?>" placeholder="Enter City" required />
-            </div>
-            <div class="form-group">
-                <label for="workscope_date">Select Date for Workscope</label>
-                <input class="form-control" type="date" id="workscope_date" name="workscope_date" value="<?= $is_edit ? date("Y-m-d", $workscope_date) : "" ?>" placeholder="Enter City" required />
             </div>
             <div class="form-group">
                 <label for="total_cost">Total Cost</label>

@@ -13,10 +13,9 @@ class Workscope extends Database
         $initialAmt_percent,
         $work_scope,
         $work_notes,
-        $user_id,
-        $workscope_date
+        $user_id
     ) {
-        $workscope_date = $this->date_resolution($workscope_date);
+        $workscope_date = date("Y-m-d H:i:s");
         try {
             $query = 'INSERT INTO workscope (workscope_client,workscope_company,workscope_city,workscope_totalCost,workscope_initialAmtPercent,workscope_scope,workscope_notes,`user_id`,workscope_date)
         VALUES(?,?,?,?,?,?,?,?,?)';
@@ -54,16 +53,14 @@ class Workscope extends Database
         $work_scope,
         $work_notes,
         $user_id,
-        $workscope_date
     ) {
-        $workscope_date = $this->date_resolution($workscope_date);
         try {
-            $query = "UPDATE workscope SET workscope_client=?,workscope_company=?,workscope_city=?,workscope_totalCost=?,workscope_initialAmtPercent=?,workscope_scope=?,workscope_notes=?,`user_id`=?,workscope_date=? WHERE workscope_id=?";
+            $query = "UPDATE workscope SET workscope_client=?,workscope_company=?,workscope_city=?,workscope_totalCost=?,workscope_initialAmtPercent=?,workscope_scope=?,workscope_notes=?,`user_id`=? WHERE workscope_id=?";
             $this->prepare_query($query);
             $work_scope = $this->content_resolution($work_scope);
             $work_notes = $this->content_resolution($work_notes);
             $this->stmt->bind_param(
-                'sssiissisi',
+                'sssiissii',
                 $client_name,
                 $client_company,
                 $client_city,
@@ -72,7 +69,6 @@ class Workscope extends Database
                 $work_scope,
                 $work_notes,
                 $user_id,
-                $workscope_date,
                 $workscope_id
             );
             $this->execute_query('u');

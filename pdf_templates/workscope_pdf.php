@@ -159,7 +159,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
         padding:6px 10px 6px 10px;
         vertical-align:top;
     }
-    .workscope_details .workscope_scope ol,ul
+    .workscope_details .workscope_scope,.workscope_notes ol,ul
     {
         margin-left:10px;
         list-style-position:inside;
@@ -169,12 +169,12 @@ $dompdf->loadHtml('<!DOCTYPE html>
     }
     .workscope_details .workscope_scope p,.workscope_notes p{
         display:table;
-        margin-bottom:15px;
+        margin-bottom:5px;
         width:100%;  
     }
     .workscope_details .workscope_scope ol,ul li{
         display:table;
-        margin-bottom:15px;
+        margin-bottom:5px;
         width:100%;
     }
     .workscope_scope ol li ol li,
@@ -186,6 +186,34 @@ $dompdf->loadHtml('<!DOCTYPE html>
     .workscope_pricing,.workscope_pricing tr td{
         border: 0px;
         padding:0px;
+    }
+
+    .account_details{
+        font-size:11px;
+        left:50px;
+        right:50px;
+        width:100%;
+        bottom:290px;
+        margin-top:50px;
+        padding-left:50px;
+        padding-right:50px;
+        padding-bottom:50px;
+    }
+    .account_details .account_head{
+        border-bottom:1px solid black;
+        padding-bottom:2px;
+    }
+    .account_details .account_head tr th{
+        text-align:left;
+    }
+    .account_details .account_body tr td{
+        padding-top:10px;
+        line-height:120%;
+        text-transform:uppercase;
+    }
+    .account_details .account_body tr .right_account div{
+       float:right;
+       padding-right:40px;
     }
     footer{
         position:fixed;
@@ -207,6 +235,35 @@ $dompdf->loadHtml('<!DOCTYPE html>
 </head>
 <body>
 <footer>
+<table class="account_details" width="100%">
+<thead class="account_head">
+    <tr>
+        <th>
+            BANK ACCOUNT DETAILS
+        </th>
+        <th>
+        </th>
+    </tr>
+</thead>
+<tbody class="account_body">
+<tr>
+    <td>
+        ACCOUNT NAME: <b>' . $gd_accountName . '</b><br/>
+        BANK NAME: ' . $gd_bankName . '<br/>
+        ADDRESS: ' . $gd_bankStreet . ' ' . $gd_bankPostal . ',<br/>
+        ' . $gd_bankCity . ',' . $gd_bankCountry . '
+    </td>
+    <td class="right_account">
+        <div>
+            SWIFT/SORT/ROUTING CODE: ' . $gd_bankSwiftCode . '<br/>
+            IBAN: ' . $gd_bankIBAN . '<br/>
+            BRANCH CODE: ' . $gd_bankBranchCode . '<br/>
+            ACCOUNT NUMBER: ' . $gd_bankAccountNumber . '
+        </div>
+    </td>
+</tr>
+</tbody>
+</table>
 <table class="registration" width="100%">
     <tr>
     <td>
@@ -287,9 +344,7 @@ $dompdf->loadHtml('<!DOCTYPE html>
         <table class="workscope_desc">
             <tr>
                 <td>
-                This brand startup services agreement is intended as a legally binding agreement
-                between GoDesign Technologies LLP (Developer) and ' . $workscope_data['workscope_company'] . ' (Client), and the
-                scope of work is following:
+                Thank you for considering GoDesign Technologies for your project needs. We are pleased to provide you with our proposal and price for your project. Please find it below.
                 </td>
             </tr>
         </table>
@@ -357,6 +412,6 @@ $dompdf->render();
 
 // Output the generated PDF to Browser
 if ($_GET["mode"] == 'd')
-    $dompdf->stream("workscope_godesign.pdf", array("Attachment" => true));
+    $dompdf->stream("Workscope_" . $workscope_data['workscope_company'] . ".pdf", array("Attachment" => true));
 else
-    $dompdf->stream("workscope_godesign.pdf", array("Attachment" => false));
+    $dompdf->stream("Workscope_" . $workscope_data['workscope_company'] . ".pdf", array("Attachment" => false));
