@@ -52,7 +52,7 @@ class Workscope extends Database
         $initialAmt_percent,
         $work_scope,
         $work_notes,
-        $user_id,
+        $user_id
     ) {
         try {
             $query = "UPDATE workscope SET workscope_client=?,workscope_company=?,workscope_city=?,workscope_totalCost=?,workscope_initialAmtPercent=?,workscope_scope=?,workscope_notes=?,`user_id`=? WHERE workscope_id=?";

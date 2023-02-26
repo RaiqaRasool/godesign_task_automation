@@ -36,7 +36,6 @@ if ($mode == 'c') {
             $_POST['work_scope'],
             $_POST['work_notes'],
             $_SESSION['user_id'],
-            $_POST['workscope_date']
         );
         $workscope->status_msg_withRedirect($status, 'edit', 'Workscope', $workscope_id);
     }
