@@ -156,6 +156,15 @@ class Database
         $root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0];
         if ($status == true) {
             header("Location:" . $root_path . "/pdf_templates//" . strtolower($doc_type) . '_pdf.php?mode=p&id=' . $id);
+            #for production ------
+            // $path_splits = explode('/', $_SERVER['REQUEST_URI']);
+            // if ($status == true) {
+            //     $path=join('/',[$path_splits[0] ,$path_splits[1] ,"pdf_templates", strtolower($doc_type). '_pdf.php?mode=p&id=' . $id]);
+            //     echo '<script type="text/javascript">';
+            //     echo 'window.location.href="'.$path.'";';
+            //     echo '</script>';
+            // }
+            //---------------------
         } else {
             echo '<div class="alert alert-danger">Some issue occured while
            ' . $op . 'ing ' . $doc_type . '.' . '

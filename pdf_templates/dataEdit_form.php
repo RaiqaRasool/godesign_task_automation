@@ -34,7 +34,7 @@ if (!empty($_POST)) {
         <form class="d-flex flex-column gap-3" name="pdf_data_form" action="" method="post">
             <div class="form-group">
                 <label for="gd_office">Company Office</label>
-                <input class="form-control" type="text" value='<?= $data->gd_office ?>' name="gd_street" />
+                <input class="form-control" type="text" value='<?= $data->gd_office ?>' name="gd_office" />
             </div>
             <div class="form-group">
                 <label for="gd_street">Company Street</label>

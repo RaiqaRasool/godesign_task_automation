@@ -4,6 +4,12 @@ session_start();
 $root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0];
 if (!isset($_SESSION['user_id'])) {
     header("Location:" . $root_path . "/index.php");
+    // production code ------
+    //     $root_path = explode('/', $_SERVER['DOCUMENT_ROOT'])[0] . '/godesign_dashboard';
+    //     if (!isset($_SESSION['user_id'])) {
+    //     header("Location:" . $root_path . "/index.php");
+    // }
+    // ------------
 }
 //logging out
 if (isset($_POST['logout'])) {
