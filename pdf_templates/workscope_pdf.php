@@ -381,17 +381,17 @@ $dompdf->loadHtml('<!DOCTYPE html>
                     <table>
                             <tr>
                                 <td>
-                                Rs. ' . strval($workscope_data['workscope_totalCost']) . '/-
+                                ' . $workscope_data['workscope_currency'] . ' ' . strval($workscope_data['workscope_totalCost']) . ' /-
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                Rs. ' . strval(initial_amount_cal()) . '/-
+                                ' . $workscope_data['workscope_currency'] . ' ' . strval(initial_amount_cal()) . ' /-
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                Rs. ' . strval(remaining_amount_cal()) . '/-
+                                ' . $workscope_data['workscope_currency'] . ' ' . strval(remaining_amount_cal()) . ' /-
                                 </td>
                             </tr>
                     </table>

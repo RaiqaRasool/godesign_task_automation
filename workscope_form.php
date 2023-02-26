@@ -3,6 +3,8 @@ require_once("./includes/header.php");
 require_once("./app/Workscope.php");
 $mode = $_GET['mode'];
 $workscope = new Workscope();
+$currency_arr = json_decode(file_get_contents('currency.json'));
+
 
 if ($mode == 'c') {
     $is_edit = false;
@@ -16,7 +18,8 @@ if ($mode == 'c') {
             $_POST['initialAmt_percent'],
             $_POST['work_scope'],
             $_POST['work_notes'],
-            $_SESSION['user_id']
+            $_SESSION['user_id'],
+            $_POST['workscope_currency']
         );
         $workscope->status_msg_withRedirect($status, 'creat', 'Workscope', $workscope->get_modifiedOrEdited_id());
     }
@@ -36,6 +39,7 @@ if ($mode == 'c') {
             $_POST['work_scope'],
             $_POST['work_notes'],
             $_SESSION['user_id'],
+            $_POST['workscope_currency']
         );
         $workscope->status_msg_withRedirect($status, 'edit', 'Workscope', $workscope_id);
     }
@@ -65,6 +69,20 @@ if ($mode == 'c') {
                 <label for="initialAmt_percent">Initial Amount Percentage</label>
                 <input class="form-control" min="0" max="100" type="number" id="initialAmt_percent" name="initialAmt_percent" value="<?= $is_edit ? $curr_workscope['workscope_initialAmtPercent'] : "" ?>" placeholder="Enter Initial Amount Percentage" required />
                 <small id="intialAmt_help" class="form-text text-muted">Note: Total cost will be split into initial and remaining amount based on this percentage</small>
+            </div>
+            <div class="form-group">
+                <label for="workscope_currency">Select Currency</label>
+                <select class="form-select" aria-label="Default select example" id="workscope_currency" name="workscope_currency" required>
+                    <?= !$is_edit ? "<option selected>select currency</option>" : "<option>select currency</option>" ?>
+                    <?php
+                    foreach ($currency_arr as $symbol => $name) :
+                        if ($is_edit == true && $symbol == $workscope_data['workscope_currency'])
+                            echo '<option value="' . $symbol . '" selected>' . $name . ' (' . $symbol . ')' . '</option>';
+                        else
+                            echo '<option value="' . $symbol . '">' . $name . ' (' . $symbol . ')' . '</option>';
+                    endforeach;
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="work_scope">Scope of Work</label>

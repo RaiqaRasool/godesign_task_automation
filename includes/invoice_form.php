@@ -1,14 +1,6 @@
 <?php
 #currency selection check
-$currency_arr = array(
-    'EUR' => 'Euro',
-    'USD' => 'US Dollar',
-    'GBP' => 'British Pound',
-    'AUD' => 'Australian Dollar',
-    'CAD' => 'Canadian Dollar',
-    'PKR' => 'Pakistani Rupee'
-);
-
+$currency_arr = json_decode(file_get_contents('currency.json'));
 ?>
 <div class="form-group">
     <label for="client_name">Client Name</label>
